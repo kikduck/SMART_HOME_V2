@@ -46,8 +46,8 @@ services:
 
   admin:
     build:
-      context: ./SMART_HOME_V2
-      dockerfile: admin/Dockerfile
+      context: .
+      dockerfile: SMART_HOME_V2/admin/Dockerfile
     ports:
       - "0.0.0.0:8000:8000"
     volumes:
