@@ -489,7 +489,7 @@ def parse_instruction(payload: Dict[str, Any]) -> Dict[str, Any]:
     try:
         # Mode standard API: 1 appel parseur
         if not use_decompose:
-            one = _call_llm_once(base_url, system_prompt, text, timeout_s=60)
+            one = _call_llm_once(base_url, system_prompt, text, timeout_s=120)
             return {
                 "parsed": one["calls"] if one["calls"] else None,
                 "raw": one["raw"],
@@ -500,7 +500,7 @@ def parse_instruction(payload: Dict[str, Any]) -> Dict[str, Any]:
         # - coupe-circuit pour phrase probablement mono-intent
         # - sinon décomposeur puis N appels parseur
         if _likely_single_intent(text):
-            one = _call_llm_once(base_url, system_prompt, text, timeout_s=60)
+            one = _call_llm_once(base_url, system_prompt, text, timeout_s=120)
             return {
                 "parsed": one["calls"] if one["calls"] else None,
                 "raw": one["raw"],
@@ -510,7 +510,7 @@ def parse_instruction(payload: Dict[str, Any]) -> Dict[str, Any]:
         intents = _split_intents_fast(text)
         decomp_wall = 0.0
         if not intents:
-            decomp = _call_decomposer(base_url, text, timeout_s=60)
+            decomp = _call_decomposer(base_url, text, timeout_s=120)
             if decomp.get("type") == "multi" and isinstance(decomp.get("intents"), list):
                 intents = [str(s).strip() for s in decomp["intents"] if str(s).strip()]
             if not intents:
@@ -521,7 +521,7 @@ def parse_instruction(payload: Dict[str, Any]) -> Dict[str, Any]:
         raws: List[str] = []
         total_wall = decomp_wall
         for intent in intents:
-            one = _call_llm_once(base_url, system_prompt, intent, timeout_s=60)
+            one = _call_llm_once(base_url, system_prompt, intent, timeout_s=120)
             total_wall += one["wall_ms"]
             if one["raw"]:
                 raws.append(one["raw"])
