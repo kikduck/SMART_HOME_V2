@@ -49,7 +49,7 @@ services:
       context: .
       dockerfile: admin/Dockerfile
     ports:
-      - "0.0.0.0:8000:8000"
+      - "0.0.0.0:8070:8000"
     volumes:
       - /home/elliot/SMART_HOME_V2/knowledge:/app/knowledge
       - /home/elliot/SMART_HOME_V2/schemas:/app/schemas
