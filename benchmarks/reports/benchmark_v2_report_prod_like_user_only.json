@@ -1,0 +1,614 @@
+{
+  "meta": {
+    "timestamp_utc": "2026-03-02T21:20:00.516305+00:00",
+    "model": "D:\\PROG\\TEST\\SMART_HOME\\gguf_models\\Qwen3.5-4B-Q4_K_M.gguf",
+    "benchmark_mode": "prod-like",
+    "slot_id": 0,
+    "cache_prompt_hint": true,
+    "prod_like_user_only": true,
+    "cases_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\benchmarks\\v2_cases.jsonl",
+    "prompt_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\prompts\\system_prompt_v2.txt",
+    "contracts_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\schemas\\tools_contracts.json",
+    "home_state_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\knowledge\\home_state.json",
+    "aliases_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\knowledge\\aliases.json",
+    "base_url": "http://127.0.0.1:8083"
+  },
+  "summary": {
+    "total": 10,
+    "success": 0,
+    "success_rate": 0.0,
+    "metrics": {
+      "tool_correct": 0.0,
+      "args_exact": 0.0,
+      "order_correct": 0.0,
+      "no_extra_args": 0.0,
+      "no_hallucination": 0.0
+    },
+    "by_category": {
+      "multi_intent_ordered": {
+        "total": 3,
+        "success": 0,
+        "success_rate": 0.0,
+        "metrics": {
+          "tool_correct": 0.0,
+          "args_exact": 0.0,
+          "order_correct": 0.0,
+          "no_extra_args": 0.0,
+          "no_hallucination": 0.0
+        }
+      },
+      "single_intent": {
+        "total": 7,
+        "success": 0,
+        "success_rate": 0.0,
+        "metrics": {
+          "tool_correct": 0.0,
+          "args_exact": 0.0,
+          "order_correct": 0.0,
+          "no_extra_args": 0.0,
+          "no_hallucination": 0.0
+        }
+      }
+    }
+  },
+  "worst_failures": [
+    {
+      "id": "S01",
+      "category": "single_intent",
+      "user_input": "allume le salon",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas allumer les lumières de votre salon, car je suis une intelligence artificielle et je n'ai pas accès à votre environnement physique ni aux commandes de votre maison.\n\nCependant, vous pouvez le faire facilement en utilisant :\n*   Un interrupteur sur le mur.\n*   Un interrupt",
+      "parsed_calls": null,
+      "latency_ms": 5173.01,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S02",
+      "category": "single_intent",
+      "user_input": "mets le bureau en lecture",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "bureau",
+            "preset": "lecture"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas modifier directement votre écran ou votre application pour passer en mode lecture, car je suis une intelligence artificielle textuelle.\n\nCependant, vous pouvez facilement activer le mode lecture sur votre ordinateur ou votre téléphone en suivant ces étapes :\n\n**Sur un ordinateur (Windows) :**\n1.  App",
+      "parsed_calls": null,
+      "latency_ms": 5165.25,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S03",
+      "category": "single_intent",
+      "user_input": "allume la tele du salon",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": [
+              "salon"
+            ]
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas allumer la télé de votre salon directement, car je suis une intelligence artificielle et je n'ai pas accès à votre domicile ni aux commandes de votre appareil.\n\nCependant, vous pouvez le faire facilement :\n*   **Sur le télécommande** : Appuyez sur le bouton d",
+      "parsed_calls": null,
+      "latency_ms": 5181.09,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S04",
+      "category": "single_intent",
+      "user_input": "eteins la radio",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "radio"
+            ]
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas éteindre la radio directement, car je suis une intelligence artificielle textuelle et je n'ai pas accès à votre appareil (téléphone, ordinateur ou radio physique).\n\nCependant, voici comment vous pouvez le faire vous-même :\n\n*   **Sur un téléphone (Android/iOS)**",
+      "parsed_calls": null,
+      "latency_ms": 5187.93,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S05",
+      "category": "single_intent",
+      "user_input": "mets 21 degres dans la chambre",
+      "expected": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 21,
+            "room": "chambre"
+          }
+        }
+      ],
+      "model_response": "Pour atteindre **21 degrés** dans votre chambre, voici les méthodes les plus efficaces et les plus économiques, classées de la plus simple à la plus complète :\n\n### 1. La méthode du ventilateur (Gratuite et immédiate)\nC'est souvent la solution la plus rapide pour faire bais",
+      "parsed_calls": null,
+      "latency_ms": 5278.2,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S06",
+      "category": "single_intent",
+      "user_input": "humidite du salon",
+      "expected": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "humidite",
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "La **humidité du salon** est un paramètre crucial pour le confort thermique, la santé et la préservation de votre intérieur. Voici un guide complet pour comprendre, mesurer et gérer ce niveau d'humidité.\n\n### 1. Quelle est la plage idéale ?\nPour un intérieur sain et confortable,",
+      "parsed_calls": null,
+      "latency_ms": 5333.61,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S07",
+      "category": "single_intent",
+      "user_input": "rappelle moi d appeler maman demain",
+      "expected": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true,
+            "date": "demain"
+          }
+        }
+      ],
+      "model_response": "C'est une excellente idée. Voici quelques petites astuces pour t'aider à ne pas oublier :\n\n*   **Ajoute-le dans ton agenda** : Crée un rendez-vous récurrent pour \"Appel Maman\" pour demain.\n*   **Pose-le comme une notification** : Si tu as un téléphone",
+      "parsed_calls": null,
+      "latency_ms": 5342.76,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "M01",
+      "category": "multi_intent_ordered",
+      "user_input": "eteins la cuisine et allume le salon",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "cuisine"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas contrôler les appareils électriques de votre maison (comme les lumières ou la cuisine).\n\nCependant, si vous utilisez une application de domotique (comme Home Assistant, Philips Hue, Alexa, Google Home, etc.), vous pouvez essayer de lancer ces commandes via votre application ou votre assistant vocal :",
+      "parsed_calls": null,
+      "latency_ms": 5325.22,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "M02",
+      "category": "multi_intent_ordered",
+      "user_input": "eteins tous les appareils puis mets le salon en cinema",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon",
+            "preset": "cinema"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas contrôler directement vos appareils connectés (comme la télévision, le son ou les lumières) car je n'ai pas accès à votre réseau domestique.\n\nCependant, je peux vous aider à **automatiser** cette action si vous utilisez un assistant vocal comme **Google Assistant** ou **Amazon",
+      "parsed_calls": null,
+      "latency_ms": 5419.91,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "M03",
+      "category": "multi_intent_ordered",
+      "user_input": "allume la chambre puis mets 19 degres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre"
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas allumer la lumière ou régler la température de votre chambre, car je suis une intelligence artificielle et je n'ai pas accès à votre environnement physique.\n\nCependant, voici comment vous pouvez le faire vous-même :\n\n1.  **Pour la lumière** : Allumez simplement l'interrupt",
+      "parsed_calls": null,
+      "latency_ms": 5433.65,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    }
+  ],
+  "results": [
+    {
+      "id": "S01",
+      "category": "single_intent",
+      "user_input": "allume le salon",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas allumer les lumières de votre salon, car je suis une intelligence artificielle et je n'ai pas accès à votre environnement physique ni aux commandes de votre maison.\n\nCependant, vous pouvez le faire facilement en utilisant :\n*   Un interrupteur sur le mur.\n*   Un interrupt",
+      "parsed_calls": null,
+      "latency_ms": 5173.01,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S02",
+      "category": "single_intent",
+      "user_input": "mets le bureau en lecture",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "bureau",
+            "preset": "lecture"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas modifier directement votre écran ou votre application pour passer en mode lecture, car je suis une intelligence artificielle textuelle.\n\nCependant, vous pouvez facilement activer le mode lecture sur votre ordinateur ou votre téléphone en suivant ces étapes :\n\n**Sur un ordinateur (Windows) :**\n1.  App",
+      "parsed_calls": null,
+      "latency_ms": 5165.25,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S03",
+      "category": "single_intent",
+      "user_input": "allume la tele du salon",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": [
+              "salon"
+            ]
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas allumer la télé de votre salon directement, car je suis une intelligence artificielle et je n'ai pas accès à votre domicile ni aux commandes de votre appareil.\n\nCependant, vous pouvez le faire facilement :\n*   **Sur le télécommande** : Appuyez sur le bouton d",
+      "parsed_calls": null,
+      "latency_ms": 5181.09,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S04",
+      "category": "single_intent",
+      "user_input": "eteins la radio",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "radio"
+            ]
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas éteindre la radio directement, car je suis une intelligence artificielle textuelle et je n'ai pas accès à votre appareil (téléphone, ordinateur ou radio physique).\n\nCependant, voici comment vous pouvez le faire vous-même :\n\n*   **Sur un téléphone (Android/iOS)**",
+      "parsed_calls": null,
+      "latency_ms": 5187.93,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S05",
+      "category": "single_intent",
+      "user_input": "mets 21 degres dans la chambre",
+      "expected": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 21,
+            "room": "chambre"
+          }
+        }
+      ],
+      "model_response": "Pour atteindre **21 degrés** dans votre chambre, voici les méthodes les plus efficaces et les plus économiques, classées de la plus simple à la plus complète :\n\n### 1. La méthode du ventilateur (Gratuite et immédiate)\nC'est souvent la solution la plus rapide pour faire bais",
+      "parsed_calls": null,
+      "latency_ms": 5278.2,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S06",
+      "category": "single_intent",
+      "user_input": "humidite du salon",
+      "expected": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "humidite",
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "La **humidité du salon** est un paramètre crucial pour le confort thermique, la santé et la préservation de votre intérieur. Voici un guide complet pour comprendre, mesurer et gérer ce niveau d'humidité.\n\n### 1. Quelle est la plage idéale ?\nPour un intérieur sain et confortable,",
+      "parsed_calls": null,
+      "latency_ms": 5333.61,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S07",
+      "category": "single_intent",
+      "user_input": "rappelle moi d appeler maman demain",
+      "expected": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true,
+            "date": "demain"
+          }
+        }
+      ],
+      "model_response": "C'est une excellente idée. Voici quelques petites astuces pour t'aider à ne pas oublier :\n\n*   **Ajoute-le dans ton agenda** : Crée un rendez-vous récurrent pour \"Appel Maman\" pour demain.\n*   **Pose-le comme une notification** : Si tu as un téléphone",
+      "parsed_calls": null,
+      "latency_ms": 5342.76,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "M01",
+      "category": "multi_intent_ordered",
+      "user_input": "eteins la cuisine et allume le salon",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "cuisine"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas contrôler les appareils électriques de votre maison (comme les lumières ou la cuisine).\n\nCependant, si vous utilisez une application de domotique (comme Home Assistant, Philips Hue, Alexa, Google Home, etc.), vous pouvez essayer de lancer ces commandes via votre application ou votre assistant vocal :",
+      "parsed_calls": null,
+      "latency_ms": 5325.22,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "M02",
+      "category": "multi_intent_ordered",
+      "user_input": "eteins tous les appareils puis mets le salon en cinema",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon",
+            "preset": "cinema"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas contrôler directement vos appareils connectés (comme la télévision, le son ou les lumières) car je n'ai pas accès à votre réseau domestique.\n\nCependant, je peux vous aider à **automatiser** cette action si vous utilisez un assistant vocal comme **Google Assistant** ou **Amazon",
+      "parsed_calls": null,
+      "latency_ms": 5419.91,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "M03",
+      "category": "multi_intent_ordered",
+      "user_input": "allume la chambre puis mets 19 degres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre"
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas allumer la lumière ou régler la température de votre chambre, car je suis une intelligence artificielle et je n'ai pas accès à votre environnement physique.\n\nCependant, voici comment vous pouvez le faire vous-même :\n\n1.  **Pour la lumière** : Allumez simplement l'interrupt",
+      "parsed_calls": null,
+      "latency_ms": 5433.65,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    }
+  ]
+}

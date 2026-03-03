@@ -1,0 +1,130 @@
+/* Smart Home V2 Admin - Léger, rapide */
+:root {
+  --bg: #0f1419;
+  --surface: #1a2332;
+  --border: #2d3a4d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --accent: #58a6ff;
+  --success: #3fb950;
+  --danger: #f85149;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font: 14px/1.5 sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+a { color: var(--accent); }
+
+.header {
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header h1 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.tabs button {
+  padding: 0.4rem 0.8rem;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.tabs button:hover { color: var(--text); }
+.tabs button.active { background: var(--border); color: var(--text); }
+
+.content { padding: 1rem; max-width: 1000px; margin: 0 auto; }
+.panel { display: none; }
+.panel.active { display: block; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.card h3 { margin: 0 0 0.75rem; font-size: 0.95rem; }
+
+input, textarea, select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  font-size: 13px;
+}
+input:focus, textarea:focus { outline: 1px solid var(--accent); }
+textarea { width: 100%; min-height: 120px; resize: vertical; font-family: monospace; }
+
+.btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { opacity: 0.9; }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text); }
+.btn-sm { padding: 0.2rem 0.5rem; font-size: 12px; }
+
+.flex { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.mb { margin-bottom: 0.5rem; }
+.mt { margin-top: 0.75rem; }
+.text-muted { color: var(--muted); font-size: 12px; }
+.toast { position: fixed; bottom: 1rem; right: 1rem; padding: 0.5rem 1rem; border-radius: 6px; background: var(--success); color: #fff; font-size: 13px; z-index: 100; }
+
+.room-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.room-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  background: var(--bg);
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.room-item .name { flex: 1; min-width: 120px; }
+.room-item .lists { flex: 2; }
+.room-item .lists input { width: 100%; min-width: 100px; }
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.tag { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.2rem 0.4rem; background: var(--surface); border-radius: 4px; font-size: 12px; }
+.tag span { cursor: pointer; color: var(--danger); }
+
+.alias-row { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem; }
+.alias-row input { flex: 1; }
+
+.preset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; }
+.preset-item { padding: 0.5rem; background: var(--bg); border-radius: 4px; border: 1px solid var(--border); }
+.preset-item .name { font-weight: 500; }
+.preset-item .scope { font-size: 11px; color: var(--muted); }
+
+.json-editor { font-family: monospace; font-size: 12px; }
+
+/* Modal */
+.modal {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200;
+  display: flex; align-items: center; justify-content: center; padding: 1rem;
+}
+.modal-content {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  max-width: 500px; width: 100%; padding: 1rem; max-height: 90vh; overflow-y: auto;
+}
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+.modal-header h3 { margin: 0; font-size: 1rem; }
+.modal-footer { display: flex; gap: 0.5rem; margin-top: 1rem; }
+.preset-modal-file { font-size: 11px; }

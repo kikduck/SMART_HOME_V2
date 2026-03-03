@@ -1,0 +1,1436 @@
+{
+  "meta": {
+    "timestamp_utc": "2026-03-02T21:40:58.182007+00:00",
+    "model": "D:\\PROG\\TEST\\SMART_HOME\\gguf_models\\Qwen3.5-4B-Q4_K_M.gguf",
+    "benchmark_mode": "stateless",
+    "slot_id": null,
+    "cache_prompt_hint": false,
+    "prod_like_user_only": false,
+    "cases_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\benchmarks\\v2_cases.jsonl",
+    "prompt_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\prompts\\system_prompt_v2.txt",
+    "contracts_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\schemas\\tools_contracts.json",
+    "home_state_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\knowledge\\home_state.json",
+    "aliases_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\knowledge\\aliases.json",
+    "base_url": "http://127.0.0.1:8083"
+  },
+  "summary": {
+    "total": 26,
+    "success": 13,
+    "success_rate": 50.0,
+    "metrics": {
+      "tool_correct": 61.54,
+      "args_exact": 50.0,
+      "order_correct": 61.54,
+      "no_extra_args": 57.69,
+      "no_hallucination": 80.77
+    },
+    "by_category": {
+      "ambiguite": {
+        "total": 4,
+        "success": 3,
+        "success_rate": 75.0,
+        "metrics": {
+          "tool_correct": 75.0,
+          "args_exact": 75.0,
+          "order_correct": 75.0,
+          "no_extra_args": 75.0,
+          "no_hallucination": 100.0
+        }
+      },
+      "global_scope": {
+        "total": 4,
+        "success": 2,
+        "success_rate": 50.0,
+        "metrics": {
+          "tool_correct": 75.0,
+          "args_exact": 50.0,
+          "order_correct": 75.0,
+          "no_extra_args": 50.0,
+          "no_hallucination": 75.0
+        }
+      },
+      "hors_domotique": {
+        "total": 3,
+        "success": 0,
+        "success_rate": 0.0,
+        "metrics": {
+          "tool_correct": 66.67,
+          "args_exact": 0.0,
+          "order_correct": 66.67,
+          "no_extra_args": 66.67,
+          "no_hallucination": 66.67
+        }
+      },
+      "multi_intent_ordered": {
+        "total": 5,
+        "success": 1,
+        "success_rate": 20.0,
+        "metrics": {
+          "tool_correct": 20.0,
+          "args_exact": 20.0,
+          "order_correct": 20.0,
+          "no_extra_args": 20.0,
+          "no_hallucination": 80.0
+        }
+      },
+      "single_intent": {
+        "total": 7,
+        "success": 7,
+        "success_rate": 100.0,
+        "metrics": {
+          "tool_correct": 100.0,
+          "args_exact": 100.0,
+          "order_correct": 100.0,
+          "no_extra_args": 100.0,
+          "no_hallucination": 100.0
+        }
+      },
+      "unknown_entities": {
+        "total": 3,
+        "success": 0,
+        "success_rate": 0.0,
+        "metrics": {
+          "tool_correct": 0.0,
+          "args_exact": 0.0,
+          "order_correct": 0.0,
+          "no_extra_args": 0.0,
+          "no_hallucination": 33.33
+        }
+      }
+    }
+  },
+  "worst_failures": [
+    {
+      "id": "M03",
+      "category": "multi_intent_ordered",
+      "user_input": "allume la chambre puis mets 19 degres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre"
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_on_devices\",\"args\":{\"devices\":[\"chambre\"],\"rooms\":{}}}, {\"tool\":\"set_temperature\",\"args\":{\"temperature\":19,\"room\":\"chambre\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "chambre"
+            ],
+            "rooms": {}
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19,
+            "room": "chambre"
+          }
+        }
+      ],
+      "latency_ms": 315.24,
+      "tokens": 40,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "O02",
+      "category": "hors_domotique",
+      "user_input": "quelle est la capitale de l italie",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[]",
+      "parsed_calls": null,
+      "latency_ms": 115.91,
+      "tokens": 2,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "U01",
+      "category": "unknown_entities",
+      "user_input": "allume l atelier",
+      "expected": [
+        {
+          "tool": "get_current_knowledge",
+          "args": {}
+        }
+      ],
+      "model_response": "[]",
+      "parsed_calls": null,
+      "latency_ms": 115.24,
+      "tokens": 2,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "U02",
+      "category": "unknown_entities",
+      "user_input": "active le mode vacances",
+      "expected": [
+        {
+          "tool": "get_current_knowledge",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_global_preset\",\"args\":{\"preset\":\"vacances\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "vacances"
+          }
+        }
+      ],
+      "latency_ms": 200.79,
+      "tokens": 18,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "M01",
+      "category": "multi_intent_ordered",
+      "user_input": "eteins la cuisine et allume le salon",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "cuisine"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_light\",\"args\":{\"room\":\"cuisine\"}},{\"tool\":\"turn_on_devices\",\"args\":{\"rooms\":\"salon\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "cuisine"
+          }
+        },
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "rooms": "salon"
+          }
+        }
+      ],
+      "latency_ms": 276.92,
+      "tokens": 31,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "M02",
+      "category": "multi_intent_ordered",
+      "user_input": "eteins tous les appareils puis mets le salon en cinema",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon",
+            "preset": "cinema"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_devices\",\"args\":{\"rooms\":\"salon\"}}, {\"tool\":\"set_global_preset\",\"args\":{\"preset\":\"cinema\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "rooms": "salon"
+          }
+        },
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "cinema"
+          }
+        }
+      ],
+      "latency_ms": 279.46,
+      "tokens": 33,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "M05",
+      "category": "multi_intent_ordered",
+      "user_input": "allume la tele et eteins le salon",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ]
+          }
+        },
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_on_devices\",\"args\":{\"devices\":[\"tele\"],\"rooms\":[]}},{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"'eteins le salon' is out of scope: 'salon' is a room, not a device. No non-light device was specified to turn off.\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": []
+          }
+        },
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "'eteins le salon' is out of scope: 'salon' is a room, not a device. No non-light device was specified to turn off."
+          }
+        }
+      ],
+      "latency_ms": 431.66,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "A04",
+      "category": "ambiguite",
+      "user_input": "temperature salon",
+      "expected": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "temperature",
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_temperature\",\"args\":{\"temperature\":null,\"room\":\"salon\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": null,
+            "room": "salon"
+          }
+        }
+      ],
+      "latency_ms": 180.38,
+      "tokens": 18,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "G03",
+      "category": "global_scope",
+      "user_input": "allume toute la maison",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_global_preset\",\"args\":{\"preset\":\"reveil\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "reveil"
+          }
+        }
+      ],
+      "latency_ms": 188.41,
+      "tokens": 18,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "U03",
+      "category": "unknown_entities",
+      "user_input": "eteins le projecteur du grenier",
+      "expected": [
+        {
+          "tool": "get_current_knowledge",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":[\"tele\"],\"rooms\":[\"balcon\"]}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": [
+              "balcon"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 239.3,
+      "tokens": 22,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "G01",
+      "category": "global_scope",
+      "user_input": "eteins toutes les lumieres",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_light\",\"args\":{\"room\":\"all\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "all"
+          }
+        }
+      ],
+      "latency_ms": 193.98,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "O01",
+      "category": "hors_domotique",
+      "user_input": "raconte une blague",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {}
+        }
+      ],
+      "latency_ms": 162.1,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "O03",
+      "category": "hors_domotique",
+      "user_input": "calcule 17 fois 9",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {}
+        }
+      ],
+      "latency_ms": 176.65,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    }
+  ],
+  "results": [
+    {
+      "id": "S01",
+      "category": "single_intent",
+      "user_input": "allume le salon",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_lighting\",\"args\":{\"room\":\"salon\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "latency_ms": 253.26,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "S02",
+      "category": "single_intent",
+      "user_input": "mets le bureau en lecture",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "bureau",
+            "preset": "lecture"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_lighting\",\"args\":{\"room\":\"bureau\",\"preset\":\"lecture\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "bureau",
+            "preset": "lecture"
+          }
+        }
+      ],
+      "latency_ms": 225.29,
+      "tokens": 21,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "S03",
+      "category": "single_intent",
+      "user_input": "allume la tele du salon",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": [
+              "salon"
+            ]
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_on_devices\",\"args\":{\"devices\":[\"tele\"],\"rooms\":[\"salon\"]}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": [
+              "salon"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 223.47,
+      "tokens": 22,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "S04",
+      "category": "single_intent",
+      "user_input": "eteins la radio",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "radio"
+            ]
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":\"radio\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": "radio"
+          }
+        }
+      ],
+      "latency_ms": 168.84,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "S05",
+      "category": "single_intent",
+      "user_input": "mets 21 degres dans la chambre",
+      "expected": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 21,
+            "room": "chambre"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_temperature\",\"args\":{\"temperature\":21,\"room\":\"chambre\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 21,
+            "room": "chambre"
+          }
+        }
+      ],
+      "latency_ms": 200.9,
+      "tokens": 19,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "S06",
+      "category": "single_intent",
+      "user_input": "humidite du salon",
+      "expected": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "humidite",
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"get_sensor_data\",\"args\":{\"type\":\"humidite\",\"room\":\"salon\"}}",
+      "parsed_calls": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "humidite",
+            "room": "salon"
+          }
+        }
+      ],
+      "latency_ms": 204.5,
+      "tokens": 21,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "S07",
+      "category": "single_intent",
+      "user_input": "rappelle moi d appeler maman demain",
+      "expected": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true,
+            "date": "demain"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_reminder\",\"args\":{\"message\":\"appeler maman\",\"date\":\"demain\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": "appeler maman",
+            "date": "demain"
+          }
+        }
+      ],
+      "latency_ms": 224.63,
+      "tokens": 23,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "M01",
+      "category": "multi_intent_ordered",
+      "user_input": "eteins la cuisine et allume le salon",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "cuisine"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_light\",\"args\":{\"room\":\"cuisine\"}},{\"tool\":\"turn_on_devices\",\"args\":{\"rooms\":\"salon\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "cuisine"
+          }
+        },
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "rooms": "salon"
+          }
+        }
+      ],
+      "latency_ms": 276.92,
+      "tokens": 31,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "M02",
+      "category": "multi_intent_ordered",
+      "user_input": "eteins tous les appareils puis mets le salon en cinema",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon",
+            "preset": "cinema"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_devices\",\"args\":{\"rooms\":\"salon\"}}, {\"tool\":\"set_global_preset\",\"args\":{\"preset\":\"cinema\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "rooms": "salon"
+          }
+        },
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "cinema"
+          }
+        }
+      ],
+      "latency_ms": 279.46,
+      "tokens": 33,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "M03",
+      "category": "multi_intent_ordered",
+      "user_input": "allume la chambre puis mets 19 degres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre"
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_on_devices\",\"args\":{\"devices\":[\"chambre\"],\"rooms\":{}}}, {\"tool\":\"set_temperature\",\"args\":{\"temperature\":19,\"room\":\"chambre\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "chambre"
+            ],
+            "rooms": {}
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19,
+            "room": "chambre"
+          }
+        }
+      ],
+      "latency_ms": 315.24,
+      "tokens": 40,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "M04",
+      "category": "multi_intent_ordered",
+      "user_input": "annule et eteins tout",
+      "expected": [
+        {
+          "tool": "step_back",
+          "args": {}
+        },
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"step_back\",\"args\":{}},{\"tool\":\"turn_off_light\",\"args\":{}}]",
+      "parsed_calls": [
+        {
+          "tool": "step_back",
+          "args": {}
+        },
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "latency_ms": 204.14,
+      "tokens": 23,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "M05",
+      "category": "multi_intent_ordered",
+      "user_input": "allume la tele et eteins le salon",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ]
+          }
+        },
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_on_devices\",\"args\":{\"devices\":[\"tele\"],\"rooms\":[]}},{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"'eteins le salon' is out of scope: 'salon' is a room, not a device. No non-light device was specified to turn off.\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": []
+          }
+        },
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "'eteins le salon' is out of scope: 'salon' is a room, not a device. No non-light device was specified to turn off."
+          }
+        }
+      ],
+      "latency_ms": 431.66,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "A01",
+      "category": "ambiguite",
+      "user_input": "allume le salon",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_lighting\",\"args\":{\"room\":\"salon\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "latency_ms": 183.46,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "A02",
+      "category": "ambiguite",
+      "user_input": "eteins tout",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_light\",\"args\":{}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "latency_ms": 152.06,
+      "tokens": 14,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "A03",
+      "category": "ambiguite",
+      "user_input": "coupe tous les appareils",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_devices\",\"args\":{}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        }
+      ],
+      "latency_ms": 155.44,
+      "tokens": 14,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "A04",
+      "category": "ambiguite",
+      "user_input": "temperature salon",
+      "expected": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "temperature",
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_temperature\",\"args\":{\"temperature\":null,\"room\":\"salon\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": null,
+            "room": "salon"
+          }
+        }
+      ],
+      "latency_ms": 180.38,
+      "tokens": 18,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "G01",
+      "category": "global_scope",
+      "user_input": "eteins toutes les lumieres",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_light\",\"args\":{\"room\":\"all\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "all"
+          }
+        }
+      ],
+      "latency_ms": 193.98,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "G02",
+      "category": "global_scope",
+      "user_input": "eteins tous les appareils",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_devices\",\"args\":{}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        }
+      ],
+      "latency_ms": 152.95,
+      "tokens": 14,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "G03",
+      "category": "global_scope",
+      "user_input": "allume toute la maison",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_global_preset\",\"args\":{\"preset\":\"reveil\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "reveil"
+          }
+        }
+      ],
+      "latency_ms": 188.41,
+      "tokens": 18,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "G04",
+      "category": "global_scope",
+      "user_input": "mode depart",
+      "expected": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "depart"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_global_preset\",\"args\":{\"preset\":\"depart\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "depart"
+          }
+        }
+      ],
+      "latency_ms": 165.3,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "O01",
+      "category": "hors_domotique",
+      "user_input": "raconte une blague",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {}
+        }
+      ],
+      "latency_ms": 162.1,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "O02",
+      "category": "hors_domotique",
+      "user_input": "quelle est la capitale de l italie",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[]",
+      "parsed_calls": null,
+      "latency_ms": 115.91,
+      "tokens": 2,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "O03",
+      "category": "hors_domotique",
+      "user_input": "calcule 17 fois 9",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {}
+        }
+      ],
+      "latency_ms": 176.65,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "U01",
+      "category": "unknown_entities",
+      "user_input": "allume l atelier",
+      "expected": [
+        {
+          "tool": "get_current_knowledge",
+          "args": {}
+        }
+      ],
+      "model_response": "[]",
+      "parsed_calls": null,
+      "latency_ms": 115.24,
+      "tokens": 2,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "U02",
+      "category": "unknown_entities",
+      "user_input": "active le mode vacances",
+      "expected": [
+        {
+          "tool": "get_current_knowledge",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_global_preset\",\"args\":{\"preset\":\"vacances\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "vacances"
+          }
+        }
+      ],
+      "latency_ms": 200.79,
+      "tokens": 18,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "U03",
+      "category": "unknown_entities",
+      "user_input": "eteins le projecteur du grenier",
+      "expected": [
+        {
+          "tool": "get_current_knowledge",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":[\"tele\"],\"rooms\":[\"balcon\"]}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": [
+              "balcon"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 239.3,
+      "tokens": 22,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    }
+  ]
+}

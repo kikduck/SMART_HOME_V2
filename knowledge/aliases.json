@@ -1,0 +1,30 @@
+{
+  "version": "2026-03-02-v1",
+  "entries": {
+    "tv": {
+      "type": "device",
+      "canonical": "tele"
+    },
+    "television": {
+      "type": "device",
+      "canonical": "tele"
+    },
+    "living room": {
+      "type": "room",
+      "canonical": "salon"
+    },
+    "sdb": {
+      "type": "room",
+      "canonical": "salle de bain"
+    },
+    "lampe bureau": {
+      "type": "fixture",
+      "canonical": "lampe de bureau"
+    },
+    "mode film": {
+      "type": "preset",
+      "canonical": "cinema"
+    }
+  }
+}
+

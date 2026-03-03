@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Home V2 Admin</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="header">
+    <h1>🏠 Smart Home V2 Admin</h1>
+    <span class="text-muted">Éditeur maison, tools, prompt, presets</span>
+  </header>
+
+  <nav class="tabs">
+    <button data-tab="maison" class="active">Maison</button>
+    <button data-tab="aliases">Alias</button>
+    <button data-tab="tools">Tools</button>
+    <button data-tab="prompt">Prompt</button>
+    <button data-tab="presets">Presets</button>
+    <button data-tab="config">Paramètres</button>
+  </nav>
+
+  <main class="content">
+    <!-- Maison -->
+    <section id="panel-maison" class="panel active">
+      <div class="card">
+        <h3>Configuration maison</h3>
+        <div class="mb">
+          <label>Nom</label>
+          <input type="text" id="house-name" placeholder="Appartement T3">
+        </div>
+        <div id="rooms-container"></div>
+        <button class="btn btn-primary mt" id="add-room">+ Pièce</button>
+        <button class="btn btn-primary mt" id="save-home">Enregistrer</button>
+      </div>
+    </section>
+
+    <!-- Alias -->
+    <section id="panel-aliases" class="panel">
+      <div class="card">
+        <h3>Alias (voice-to-text)</h3>
+        <p class="text-muted mb">Alias → nom canonique (room, device, fixture, preset)</p>
+        <div id="aliases-container"></div>
+        <button class="btn btn-primary mt" id="add-alias">+ Alias</button>
+        <button class="btn btn-primary mt" id="save-aliases">Enregistrer</button>
+      </div>
+    </section>
+
+    <!-- Tools -->
+    <section id="panel-tools" class="panel">
+      <div class="card">
+        <h3>Tools (tools_contracts.json)</h3>
+        <textarea id="tools-json" class="json-editor" rows="20"></textarea>
+        <button class="btn btn-primary mt" id="save-tools">Enregistrer</button>
+      </div>
+    </section>
+
+    <!-- Prompt -->
+    <section id="panel-prompt" class="panel">
+      <div class="card">
+        <h3>System prompt (system_prompt_v2.txt)</h3>
+        <p class="text-muted mb">Placeholders: {{KNOWLEDGE_HINT}}, {{TOOLS_BLOCK}}</p>
+        <textarea id="prompt-text" rows="25"></textarea>
+        <button class="btn btn-primary mt" id="save-prompt">Enregistrer</button>
+      </div>
+    </section>
+
+    <!-- Presets -->
+    <section id="panel-presets" class="panel">
+      <div class="card">
+        <h3>Presets éclairage (par pièce)</h3>
+        <div id="presets-lighting" class="preset-grid"></div>
+        <button class="btn btn-ghost btn-sm mt" id="add-preset-lighting">+ Preset lighting</button>
+      </div>
+      <div class="card">
+        <h3>Presets globaux (maison entière)</h3>
+        <div id="presets-global" class="preset-grid"></div>
+        <button class="btn btn-ghost btn-sm mt" id="add-preset-global">+ Preset global</button>
+      </div>
+      <div class="card">
+        <h3>Import / Export .json</h3>
+        <input type="file" id="preset-file" accept=".json" style="display:none">
+        <button class="btn btn-ghost" id="import-preset">Importer .json</button>
+      </div>
+      <button class="btn btn-primary mt" id="save-presets">Enregistrer presets</button>
+    </section>
+
+    <!-- Paramètres (modèle) -->
+    <section id="panel-config" class="panel">
+      <div class="card">
+        <h3>Modèle LLM</h3>
+        <p class="text-muted mb">Modèle utilisé pour le parsing voice-to-text (llama.cpp)</p>
+        <div class="mb">
+          <label>Modèle sélectionné</label>
+          <select id="config-model">
+            <option value="Qwen3.5-2B-Q6_K">Qwen3.5-2B-Q6_K (1.5 GB) - recommandé</option>
+            <option value="Qwen3.5-2B-Q4_K_M">Qwen3.5-2B-Q4_K_M (1.2 GB)</option>
+            <option value="Qwen3.5-2B-Q5_K_M">Qwen3.5-2B-Q5_K_M (1.3 GB)</option>
+          </select>
+        </div>
+        <div class="mb">
+          <label>Chemin personnalisé (optionnel)</label>
+          <input type="text" id="config-model-path" placeholder="models/Qwen3.5-2B-Q6_K.gguf ou chemin absolu">
+        </div>
+        <div class="mb">
+          <label>URL llama-server</label>
+          <input type="text" id="config-llama-url" placeholder="http://127.0.0.1:8085">
+        </div>
+        <div class="mb">
+          <label>Port llama-server</label>
+          <input type="number" id="config-llama-port" value="8085" min="1024" max="65535">
+        </div>
+        <p class="text-muted mb">Source : <a href="https://huggingface.co/unsloth/Qwen3.5-2B-GGUF" target="_blank">unsloth/Qwen3.5-2B-GGUF</a></p>
+        <button class="btn btn-primary mt" id="save-config">Enregistrer</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" style="display:none"></div>
+
+  <!-- Modal éditeur preset -->
+  <div id="preset-modal" class="modal" style="display:none">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="preset-modal-title">Éditer preset</h3>
+        <span class="preset-modal-file text-muted" id="preset-modal-file"></span>
+        <button class="btn btn-ghost btn-sm" id="preset-modal-close">×</button>
+      </div>
+      <p class="text-muted mb" id="preset-modal-hint">Paramètres pour les tools (ex: intensity, color_temp, color)</p>
+      <textarea id="preset-modal-json" class="json-editor" rows="12"></textarea>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="preset-modal-save">Enregistrer</button>
+        <button class="btn btn-ghost" id="preset-modal-cancel">Annuler</button>
+      </div>
+    </div>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

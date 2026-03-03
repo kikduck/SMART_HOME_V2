@@ -1,0 +1,411 @@
+{
+  "version": "2.0.0",
+  "global_rules": [
+    "Output must be strict JSON only: object or array of objects.",
+    "Argument not mentioned by user means argument is absent.",
+    "Never invent room, device, fixture, preset, or numeric values.",
+    "For multi-intent, preserve user order in emitted tool calls.",
+    "When command scope is global and explicit, args:{} is allowed and means all."
+  ],
+  "tools": [
+    {
+      "name": "set_lighting",
+      "description": "Turns on or adjusts lights only. Use for any room-only on-command ('allume [room]') and for room+preset ('mets [room] en [preset]').",
+      "does_not": "Must not be used for TV, speakers, heating, fans, or any non-light device.",
+      "arguments": {
+        "required": [],
+        "optional": ["room", "fixture", "preset", "intensite"]
+      },
+      "ambiguity_rules": [
+        "If user says 'allume le salon', prefer set_lighting over device tools.",
+        "If target is clearly a non-light device, do not use set_lighting."
+      ],
+      "arg_absence_rule": "If user does not mention preset or intensite, do not add them.",
+      "global_scope_rule": "args:{} means all lights in all rooms.",
+      "examples_ok": [
+        {
+          "input": "allume le salon",
+          "call": { "tool": "set_lighting", "args": { "room": "salon" } }
+        },
+        {
+          "input": "mets le bureau en lecture",
+          "call": { "tool": "set_lighting", "args": { "room": "bureau", "preset": "lecture" } }
+        },
+        {
+          "input": "allume la chambre puis mets 19 degres",
+          "call": [
+            { "tool": "set_lighting", "args": { "room": "chambre" } },
+            { "tool": "set_temperature", "args": { "temperature": 19 } }
+          ]
+        },
+        {
+          "input": "eteins la cuisine et allume le salon",
+          "call": [
+            { "tool": "turn_off_light", "args": { "room": "cuisine" } },
+            { "tool": "set_lighting", "args": { "room": "salon" } }
+          ]
+        },
+        {
+          "input": "mets le salon en cinema",
+          "call": { "tool": "set_lighting", "args": { "room": "salon", "preset": "cinema" } }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "allume la tele",
+          "bad_call": { "tool": "set_lighting", "args": { "room": "salon" } }
+        },
+        {
+          "input": "allume le salon",
+          "bad_call": { "tool": "turn_on_devices", "args": { "rooms": "salon" } }
+        }
+      ]
+    },
+    {
+      "name": "turn_off_light",
+      "description": "Turns off lights only. Use for any room-only off-command ('eteins [room]') even without explicit fixture name.",
+      "does_not": "Must not be used for non-light devices.",
+      "arguments": {
+        "required": [],
+        "optional": ["room", "fixture"]
+      },
+      "ambiguity_rules": [
+        "If user says 'eteins tout' without explicit devices, prefer turn_off_light first.",
+        "If user explicitly says appareil/device, use turn_off_devices."
+      ],
+      "arg_absence_rule": "If room and fixture are not mentioned, keep args empty.",
+      "global_scope_rule": "args:{} means all lights.",
+      "examples_ok": [
+        {
+          "input": "eteins la cuisine",
+          "call": { "tool": "turn_off_light", "args": { "room": "cuisine" } }
+        },
+        {
+          "input": "allume la tele et eteins le salon",
+          "call": [
+            { "tool": "turn_on_devices", "args": { "devices": ["tele"] } },
+            { "tool": "turn_off_light", "args": { "room": "salon" } }
+          ]
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "eteins la tele du salon",
+          "bad_call": { "tool": "turn_off_light", "args": { "room": "salon" } }
+        },
+        {
+          "input": "eteins le salon",
+          "bad_call": { "tool": "do_nothing", "args": {} }
+        }
+      ]
+    },
+    {
+      "name": "set_temperature",
+      "description": "Sets target temperature only.",
+      "does_not": "Must not be used as a sensor read when no numeric value is provided.",
+      "arguments": {
+        "required": ["temperature"],
+        "optional": ["room"]
+      },
+      "ambiguity_rules": [
+        "If user asks current temperature, use get_sensor_data type=temperature.",
+        "If numeric target is explicit, use set_temperature."
+      ],
+      "arg_absence_rule": "Room is optional and must stay absent if not mentioned.",
+      "global_scope_rule": "If no room is provided, target applies globally.",
+      "examples_ok": [
+        {
+          "input": "mets 21 degres",
+          "call": { "tool": "set_temperature", "args": { "temperature": 21 } }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "combien fait-il dans le salon",
+          "bad_call": { "tool": "set_temperature", "args": { "temperature": 21, "room": "salon" } }
+        }
+      ]
+    },
+    {
+      "name": "set_humidity",
+      "description": "Sets target humidity only.",
+      "does_not": "Must not be used as a sensor read when no numeric value is provided.",
+      "arguments": {
+        "required": ["humidity"],
+        "optional": ["room"]
+      },
+      "ambiguity_rules": [
+        "If user asks current humidity, use get_sensor_data type=humidite.",
+        "If target percentage is explicit, use set_humidity."
+      ],
+      "arg_absence_rule": "Room is optional and must stay absent if not mentioned.",
+      "global_scope_rule": "If no room is provided, target applies globally.",
+      "examples_ok": [
+        {
+          "input": "mets l humidite a 45",
+          "call": { "tool": "set_humidity", "args": { "humidity": 45 } }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "humidite salon",
+          "bad_call": { "tool": "set_humidity", "args": { "humidity": 45, "room": "salon" } }
+        }
+      ]
+    },
+    {
+      "name": "get_sensor_data",
+      "description": "Reads sensor values.",
+      "does_not": "Must not be used to set target values.",
+      "arguments": {
+        "required": ["type"],
+        "optional": ["room"]
+      },
+      "ambiguity_rules": [
+        "Use for informational requests: 'combien', 'quel taux', 'temperature actuelle'."
+      ],
+      "arg_absence_rule": "Room stays absent if not specified.",
+      "global_scope_rule": "No room means all rooms.",
+      "examples_ok": [
+        {
+          "input": "temperature salon",
+          "call": { "tool": "get_sensor_data", "args": { "type": "temperature", "room": "salon" } }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "mets 22 degres",
+          "bad_call": { "tool": "get_sensor_data", "args": { "type": "temperature" } }
+        }
+      ]
+    },
+    {
+      "name": "turn_on_devices",
+      "description": "Turns on non-light devices only. Requires an explicit device name (tele, enceinte, ventilateur...). Never use for room-only commands.",
+      "does_not": "Must not be used for lighting fixtures or when only a room name is given. No 'preset' argument exists for this tool.",
+      "arguments": {
+        "required": ["devices"],
+        "optional": ["rooms"]
+      },
+      "ambiguity_rules": [
+        "If user names TV, speaker, fan, coffee machine, use device tools.",
+        "If user names a room only (no device), use set_lighting instead.",
+        "rooms is only included when explicitly stated by the user."
+      ],
+      "arg_absence_rule": "Only include rooms when explicitly present.",
+      "global_scope_rule": "No rooms means all rooms where the device exists.",
+      "examples_ok": [
+        {
+          "input": "allume la tele du salon",
+          "call": { "tool": "turn_on_devices", "args": { "devices": ["tele"], "rooms": ["salon"] } }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "allume le salon",
+          "bad_call": { "tool": "turn_on_devices", "args": { "devices": ["lumiere"] } }
+        }
+      ]
+    },
+    {
+      "name": "turn_off_devices",
+      "description": "Turns off non-light devices only. Requires explicit device name or args:{} for all. Never use for room-only commands.",
+      "does_not": "Must not be used for lighting fixtures or when only a room name is given.",
+      "arguments": {
+        "required": [],
+        "optional": ["devices", "rooms"]
+      },
+      "ambiguity_rules": [
+        "If user says 'eteins tous les appareils', use args:{}.",
+        "If user says 'eteins les lumieres', use turn_off_light."
+      ],
+      "arg_absence_rule": "Do not create devices list when user did not specify one.",
+      "global_scope_rule": "args:{} means all non-light devices everywhere.",
+      "examples_ok": [
+        {
+          "input": "eteins tous les appareils",
+          "call": { "tool": "turn_off_devices", "args": {} }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "eteins la chambre",
+          "bad_call": { "tool": "turn_off_devices", "args": { "rooms": ["chambre"] } }
+        }
+      ]
+    },
+    {
+      "name": "set_global_preset",
+      "description": "Applies one global home preset (cinema, nuit, depart...). Only for house-wide mode, never for a single room.",
+      "does_not": "Must not be used for room-only requests. 'salon en cinema' is set_lighting, not set_global_preset.",
+      "arguments": {
+        "required": ["preset"],
+        "optional": []
+      },
+      "ambiguity_rules": [
+        "If user intent is home-wide mode (cinema, depart, nuit), use this tool."
+      ],
+      "arg_absence_rule": "Only preset is expected.",
+      "global_scope_rule": "Always global by definition.",
+      "examples_ok": [
+        {
+          "input": "mode depart",
+          "call": { "tool": "set_global_preset", "args": { "preset": "depart" } }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "salon en cinema",
+          "bad_call": { "tool": "set_global_preset", "args": { "preset": "cinema" } }
+        }
+      ]
+    },
+    {
+      "name": "set_reminder",
+      "description": "Creates reminders.",
+      "does_not": "Must not be used for home control actions.",
+      "arguments": {
+        "required": ["message"],
+        "optional": ["date"]
+      },
+      "ambiguity_rules": [
+        "Date must stay optional; include only when clearly present."
+      ],
+      "arg_absence_rule": "If date is not said, omit date.",
+      "global_scope_rule": "Not applicable.",
+      "examples_ok": [
+        {
+          "input": "rappelle moi d appeler maman demain",
+          "call": { "tool": "set_reminder", "args": { "message": "appeler maman", "date": "demain" } }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "allume le salon",
+          "bad_call": { "tool": "set_reminder", "args": { "message": "allumer salon" } }
+        }
+      ]
+    },
+    {
+      "name": "step_back",
+      "description": "Undo last action. Use for annule/cancel/undo. NOT for rappel/reminder.",
+      "does_not": "Must not be used for forward actions.",
+      "arguments": {
+        "required": [],
+        "optional": []
+      },
+      "ambiguity_rules": [
+        "Use for cancel/revert intents only."
+      ],
+      "arg_absence_rule": "Always args:{}.",
+      "global_scope_rule": "Not applicable.",
+      "examples_ok": [
+        {
+          "input": "annule",
+          "call": { "tool": "step_back", "args": {} }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "allume le salon",
+          "bad_call": { "tool": "step_back", "args": {} }
+        }
+      ]
+    },
+    {
+      "name": "do_nothing",
+      "description": "No-op for out-of-scope or impossible requests.",
+      "does_not": "Must not be used when a clear in-scope tool exists.",
+      "arguments": {
+        "required": [],
+        "optional": ["reason"]
+      },
+      "ambiguity_rules": [
+        "Use for jokes, weather, unsupported tasks, or unknown entities that cannot be resolved."
+      ],
+      "arg_absence_rule": "reason is optional.",
+      "global_scope_rule": "Not applicable.",
+      "examples_ok": [
+        {
+          "input": "raconte une blague",
+          "call": { "tool": "do_nothing", "args": { "reason": "hors_domotique" } }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "eteins la cuisine",
+          "bad_call": { "tool": "do_nothing", "args": {} }
+        }
+      ]
+    },
+    {
+      "name": "get_current_knowledge",
+      "description": "Returns live versioned home knowledge.",
+      "does_not": "Does not execute home actions.",
+      "arguments": {
+        "required": [],
+        "optional": []
+      },
+      "ambiguity_rules": [
+        "Use before deciding when entity names are uncertain.",
+        "'allume l atelier' (atelier absent) -> get_current_knowledge",
+        "'mode vacances' (vacances absent des presets) -> get_current_knowledge"
+      ],
+      "arg_absence_rule": "Always args:{}.",
+      "global_scope_rule": "Not applicable.",
+      "examples_ok": [
+        {
+          "input": "quelle est la liste des pieces",
+          "call": { "tool": "get_current_knowledge", "args": {} }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "allume le salon",
+          "bad_call": { "tool": "get_current_knowledge", "args": {} }
+        }
+      ]
+    },
+    {
+      "name": "upsert_home_entity",
+      "description": "Creates or updates one knowledge entity.",
+      "does_not": "Does not control physical devices directly.",
+      "arguments": {
+        "required": ["entity_type", "entity_id", "data"],
+        "optional": ["scope"]
+      },
+      "ambiguity_rules": [
+        "Use only for explicit update requests on house configuration."
+      ],
+      "arg_absence_rule": "Do not add scope unless relevant.",
+      "global_scope_rule": "Not applicable.",
+      "examples_ok": [
+        {
+          "input": "ajoute la piece atelier avec une lampe",
+          "call": {
+            "tool": "upsert_home_entity",
+            "args": {
+              "entity_type": "room",
+              "entity_id": "atelier",
+              "data": { "lights": ["lampe"] }
+            }
+          }
+        }
+      ],
+      "examples_ko": [
+        {
+          "input": "allume le salon",
+          "bad_call": {
+            "tool": "upsert_home_entity",
+            "args": {
+              "entity_type": "room",
+              "entity_id": "salon",
+              "data": {}
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+

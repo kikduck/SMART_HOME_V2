@@ -1,0 +1,207 @@
+{
+  "meta": {
+    "timestamp_utc": "2026-03-02T21:16:07.230599+00:00",
+    "model": "D:\\PROG\\TEST\\SMART_HOME\\gguf_models\\Qwen3.5-4B-Q4_K_M.gguf",
+    "benchmark_mode": "prod-like",
+    "slot_id": 0,
+    "cache_prompt_hint": true,
+    "cases_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\benchmarks\\v2_cases.jsonl",
+    "prompt_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\prompts\\system_prompt_v2.txt",
+    "contracts_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\schemas\\tools_contracts.json",
+    "home_state_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\knowledge\\home_state.json",
+    "aliases_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\knowledge\\aliases.json",
+    "base_url": "http://127.0.0.1:8083"
+  },
+  "summary": {
+    "total": 3,
+    "success": 0,
+    "success_rate": 0.0,
+    "metrics": {
+      "tool_correct": 0.0,
+      "args_exact": 0.0,
+      "order_correct": 0.0,
+      "no_extra_args": 0.0,
+      "no_hallucination": 0.0
+    },
+    "by_category": {
+      "single_intent": {
+        "total": 3,
+        "success": 0,
+        "success_rate": 0.0,
+        "metrics": {
+          "tool_correct": 0.0,
+          "args_exact": 0.0,
+          "order_correct": 0.0,
+          "no_extra_args": 0.0,
+          "no_hallucination": 0.0
+        }
+      }
+    }
+  },
+  "worst_failures": [
+    {
+      "id": "S01",
+      "category": "single_intent",
+      "user_input": "allume le salon",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas allumer les lumières de votre salon, car je suis une intelligence artificielle et je n'ai pas accès à votre environnement physique ni aux commandes de votre maison.\n\nCependant, vous pouvez le faire facilement en utilisant :\n*   Un interrupteur sur le mur.\n*   Un interrupt",
+      "parsed_calls": null,
+      "latency_ms": 5223.48,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S02",
+      "category": "single_intent",
+      "user_input": "mets le bureau en lecture",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "bureau",
+            "preset": "lecture"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas modifier directement votre écran ou votre application pour passer en mode lecture, car je suis une intelligence artificielle textuelle.\n\nCependant, vous pouvez facilement activer le mode lecture sur votre ordinateur ou votre téléphone en suivant ces étapes :\n\n**Sur un ordinateur (Windows) :**\n1.  App",
+      "parsed_calls": null,
+      "latency_ms": 5261.64,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S03",
+      "category": "single_intent",
+      "user_input": "allume la tele du salon",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": [
+              "salon"
+            ]
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas allumer la télé de votre salon directement, car je suis une intelligence artificielle et je n'ai pas accès à votre domicile ni aux commandes de votre appareil.\n\nCependant, vous pouvez le faire facilement :\n*   **Sur le télécommande** : Appuyez sur le bouton d",
+      "parsed_calls": null,
+      "latency_ms": 5225.19,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    }
+  ],
+  "results": [
+    {
+      "id": "S01",
+      "category": "single_intent",
+      "user_input": "allume le salon",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas allumer les lumières de votre salon, car je suis une intelligence artificielle et je n'ai pas accès à votre environnement physique ni aux commandes de votre maison.\n\nCependant, vous pouvez le faire facilement en utilisant :\n*   Un interrupteur sur le mur.\n*   Un interrupt",
+      "parsed_calls": null,
+      "latency_ms": 5223.48,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S02",
+      "category": "single_intent",
+      "user_input": "mets le bureau en lecture",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "bureau",
+            "preset": "lecture"
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas modifier directement votre écran ou votre application pour passer en mode lecture, car je suis une intelligence artificielle textuelle.\n\nCependant, vous pouvez facilement activer le mode lecture sur votre ordinateur ou votre téléphone en suivant ces étapes :\n\n**Sur un ordinateur (Windows) :**\n1.  App",
+      "parsed_calls": null,
+      "latency_ms": 5261.64,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "S03",
+      "category": "single_intent",
+      "user_input": "allume la tele du salon",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": [
+              "salon"
+            ]
+          }
+        }
+      ],
+      "model_response": "Je ne peux pas allumer la télé de votre salon directement, car je suis une intelligence artificielle et je n'ai pas accès à votre domicile ni aux commandes de votre appareil.\n\nCependant, vous pouvez le faire facilement :\n*   **Sur le télécommande** : Appuyez sur le bouton d",
+      "parsed_calls": null,
+      "latency_ms": 5225.19,
+      "tokens": 64,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    }
+  ]
+}

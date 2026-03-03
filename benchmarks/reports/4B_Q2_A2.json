@@ -1,0 +1,2496 @@
+{
+  "meta": {
+    "timestamp_utc": "2026-03-02T23:41:15.223661+00:00",
+    "model": "D:\\PROG\\TEST\\SMART_HOME\\gguf_models\\Qwen3.5-4B-UD-Q2_K_XL.gguf",
+    "benchmark_mode": "stateless",
+    "slot_id": null,
+    "cache_prompt_hint": false,
+    "prod_like_user_only": false,
+    "cases_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\benchmarks\\cases_A2.jsonl",
+    "prompt_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\prompts\\system_prompt_v2.txt",
+    "contracts_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\schemas\\tools_contracts.json",
+    "home_state_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\knowledge\\home_state.json",
+    "aliases_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\knowledge\\aliases.json",
+    "base_url": "http://127.0.0.1:8084"
+  },
+  "summary": {
+    "total": 56,
+    "success": 44,
+    "success_rate": 78.57,
+    "metrics": {
+      "tool_correct": 82.14,
+      "args_exact": 78.57,
+      "order_correct": 82.14,
+      "no_extra_args": 83.93,
+      "no_hallucination": 94.64
+    },
+    "by_category": {
+      "ambiguite": {
+        "total": 8,
+        "success": 6,
+        "success_rate": 75.0,
+        "metrics": {
+          "tool_correct": 75.0,
+          "args_exact": 75.0,
+          "order_correct": 75.0,
+          "no_extra_args": 87.5,
+          "no_hallucination": 100.0
+        }
+      },
+      "global_scope": {
+        "total": 7,
+        "success": 7,
+        "success_rate": 100.0,
+        "metrics": {
+          "tool_correct": 100.0,
+          "args_exact": 100.0,
+          "order_correct": 100.0,
+          "no_extra_args": 100.0,
+          "no_hallucination": 100.0
+        }
+      },
+      "hors_domotique": {
+        "total": 5,
+        "success": 5,
+        "success_rate": 100.0,
+        "metrics": {
+          "tool_correct": 100.0,
+          "args_exact": 100.0,
+          "order_correct": 100.0,
+          "no_extra_args": 100.0,
+          "no_hallucination": 100.0
+        }
+      },
+      "multi_intent_ordered": {
+        "total": 10,
+        "success": 6,
+        "success_rate": 60.0,
+        "metrics": {
+          "tool_correct": 70.0,
+          "args_exact": 60.0,
+          "order_correct": 70.0,
+          "no_extra_args": 60.0,
+          "no_hallucination": 90.0
+        }
+      },
+      "piege": {
+        "total": 6,
+        "success": 5,
+        "success_rate": 83.33,
+        "metrics": {
+          "tool_correct": 83.33,
+          "args_exact": 83.33,
+          "order_correct": 83.33,
+          "no_extra_args": 83.33,
+          "no_hallucination": 83.33
+        }
+      },
+      "single_intent": {
+        "total": 14,
+        "success": 11,
+        "success_rate": 78.57,
+        "metrics": {
+          "tool_correct": 85.71,
+          "args_exact": 78.57,
+          "order_correct": 85.71,
+          "no_extra_args": 92.86,
+          "no_hallucination": 100.0
+        }
+      },
+      "unknown_entities": {
+        "total": 6,
+        "success": 4,
+        "success_rate": 66.67,
+        "metrics": {
+          "tool_correct": 66.67,
+          "args_exact": 66.67,
+          "order_correct": 66.67,
+          "no_extra_args": 66.67,
+          "no_hallucination": 83.33
+        }
+      }
+    }
+  },
+  "worst_failures": [
+    {
+      "id": "D08",
+      "category": "multi_intent_ordered",
+      "user_input": "allume le bureau et rappelle moi de fermer les fenetres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "bureau"
+          }
+        },
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_on_devices\",\"args\":{\"devices\":[\"bureau\"]}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "bureau"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 201.01,
+      "tokens": 16,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "G06",
+      "category": "piege",
+      "user_input": "eteins la tele et les lumieres de la cuisine",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ]
+          }
+        },
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "cuisine"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":[\"tele\"]}},\"{\"tool\":\"turn_off_light\",\"args\":{\"room\":\"cuisine\"}}]",
+      "parsed_calls": null,
+      "latency_ms": 298.9,
+      "tokens": 32,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "I03",
+      "category": "unknown_entities",
+      "user_input": "eteins le climatiseur",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":[\"climatiseur\"]}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "climatiseur"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 180.87,
+      "tokens": 17,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "C14",
+      "category": "single_intent",
+      "user_input": "note moi de prendre un rendez-vous",
+      "expected": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"no_action\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "no_action"
+          }
+        }
+      ],
+      "latency_ms": 214.85,
+      "tokens": 15,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "D09",
+      "category": "multi_intent_ordered",
+      "user_input": "allume la chambre le salon et le couloir",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "couloir"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{\"room\":\"chambre\",\"room\":\"salon\",\"room\":\"couloir\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "couloir"
+          }
+        }
+      ],
+      "latency_ms": 253.99,
+      "tokens": 26,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "D10",
+      "category": "multi_intent_ordered",
+      "user_input": "baisse les lumieres de la chambre a 20 et mets 19 degres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre",
+            "intensite": 20
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_lighting\",\"args\":{\"room\":\"chambre\",\"intensite\":20}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre",
+            "intensite": 20
+          }
+        }
+      ],
+      "latency_ms": 234.8,
+      "tokens": 23,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "E06",
+      "category": "ambiguite",
+      "user_input": "c est trop lumineux",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{\"intensite\":null}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "intensite": null
+          }
+        }
+      ],
+      "latency_ms": 163.72,
+      "tokens": 15,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "I04",
+      "category": "unknown_entities",
+      "user_input": "mets 22 degres dans la cave",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_temperature\",\"args\":{\"temperature\":22}}",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 22
+          }
+        }
+      ],
+      "latency_ms": 213.37,
+      "tokens": 14,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "C09",
+      "category": "single_intent",
+      "user_input": "chambre en mode nuit",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre",
+            "preset": "nuit"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_global_preset\",\"args\":{\"preset\":\"nuit\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "nuit"
+          }
+        }
+      ],
+      "latency_ms": 179.75,
+      "tokens": 16,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "E03",
+      "category": "ambiguite",
+      "user_input": "augmente le chauffage",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_temperature\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {}
+        }
+      ],
+      "latency_ms": 154.18,
+      "tokens": 11,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "D07",
+      "category": "multi_intent_ordered",
+      "user_input": "chambre en nuit et humidite a 40",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre",
+            "preset": "nuit"
+          }
+        },
+        {
+          "tool": "set_humidity",
+          "args": {
+            "humidity": 40
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_lighting\",\"args\":{\"room\":\"chambre\",\"preset\":\"nuit\"}},{\"tool\":\"set_humidity\",\"args\":{\"humidity\":40,\"room\":\"chambre\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre",
+            "preset": "nuit"
+          }
+        },
+        {
+          "tool": "set_humidity",
+          "args": {
+            "humidity": 40,
+            "room": "chambre"
+          }
+        }
+      ],
+      "latency_ms": 316.67,
+      "tokens": 41,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "C05",
+      "category": "single_intent",
+      "user_input": "18 degres en salle de bain",
+      "expected": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 18,
+            "room": "salle de bain"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_temperature\",\"args\":{\"temperature\":18}}",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 18
+          }
+        }
+      ],
+      "latency_ms": 171.39,
+      "tokens": 14,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    }
+  ],
+  "results": [
+    {
+      "id": "C01",
+      "category": "single_intent",
+      "user_input": "demarre l enceinte",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "enceinte"
+            ]
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_on_devices\",\"args\":{\"devices\":[\"enceinte\"]}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "enceinte"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 412.68,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "C02",
+      "category": "single_intent",
+      "user_input": "eclaire la cuisine",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "cuisine"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{\"room\":\"cuisine\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "cuisine"
+          }
+        }
+      ],
+      "latency_ms": 173.69,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "C03",
+      "category": "single_intent",
+      "user_input": "coupe l ecran du bureau",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "ecran"
+            ],
+            "rooms": [
+              "bureau"
+            ]
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":[\"ecran\"],\"rooms\":[\"bureau\"]}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "ecran"
+            ],
+            "rooms": [
+              "bureau"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 220.78,
+      "tokens": 21,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "C04",
+      "category": "single_intent",
+      "user_input": "regle l humidite a 55",
+      "expected": [
+        {
+          "tool": "set_humidity",
+          "args": {
+            "humidity": 55
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_humidity\",\"args\":{\"humidity\":55}}",
+      "parsed_calls": [
+        {
+          "tool": "set_humidity",
+          "args": {
+            "humidity": 55
+          }
+        }
+      ],
+      "latency_ms": 189.3,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "C05",
+      "category": "single_intent",
+      "user_input": "18 degres en salle de bain",
+      "expected": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 18,
+            "room": "salle de bain"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_temperature\",\"args\":{\"temperature\":18}}",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 18
+          }
+        }
+      ],
+      "latency_ms": 171.39,
+      "tokens": 14,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "C06",
+      "category": "single_intent",
+      "user_input": "qualite de l air dans le salon",
+      "expected": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "qualite_air",
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"get_sensor_data\",\"args\":{\"type\":\"qualite_air\",\"room\":\"salon\"}}",
+      "parsed_calls": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "qualite_air",
+            "room": "salon"
+          }
+        }
+      ],
+      "latency_ms": 217.15,
+      "tokens": 21,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "C07",
+      "category": "single_intent",
+      "user_input": "rappelle moi d acheter du pain samedi",
+      "expected": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true,
+            "date": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_reminder\",\"args\":{\"message\":\"acheter du pain samedi\",\"date\":\"samedi\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": "acheter du pain samedi",
+            "date": "samedi"
+          }
+        }
+      ],
+      "latency_ms": 226.49,
+      "tokens": 22,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "C08",
+      "category": "single_intent",
+      "user_input": "allume le lampadaire",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "fixture": "lampadaire"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{\"fixture\":\"lampadaire\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "fixture": "lampadaire"
+          }
+        }
+      ],
+      "latency_ms": 203.47,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "C09",
+      "category": "single_intent",
+      "user_input": "chambre en mode nuit",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre",
+            "preset": "nuit"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_global_preset\",\"args\":{\"preset\":\"nuit\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "nuit"
+          }
+        }
+      ],
+      "latency_ms": 179.75,
+      "tokens": 16,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "C10",
+      "category": "single_intent",
+      "user_input": "26 degres",
+      "expected": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 26
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_temperature\",\"args\":{\"temperature\":26}}",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 26
+          }
+        }
+      ],
+      "latency_ms": 157.72,
+      "tokens": 14,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "C11",
+      "category": "single_intent",
+      "user_input": "revenir en arriere",
+      "expected": [
+        {
+          "tool": "step_back",
+          "args": {}
+        }
+      ],
+      "model_response": "{\"tool\":\"step_back\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "step_back",
+          "args": {}
+        }
+      ],
+      "latency_ms": 152.59,
+      "tokens": 11,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "C12",
+      "category": "single_intent",
+      "user_input": "co2 dans le bureau",
+      "expected": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "co2",
+            "room": "bureau"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"get_sensor_data\",\"args\":{\"type\":\"co2\",\"room\":\"bureau\"}}",
+      "parsed_calls": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "co2",
+            "room": "bureau"
+          }
+        }
+      ],
+      "latency_ms": 185.95,
+      "tokens": 20,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "C13",
+      "category": "single_intent",
+      "user_input": "lance le ventilateur de la chambre",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "ventilateur"
+            ],
+            "rooms": [
+              "chambre"
+            ]
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_on_devices\",\"args\":{\"devices\":[\"ventilateur\"],\"rooms\":[\"chambre\"]}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "ventilateur"
+            ],
+            "rooms": [
+              "chambre"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 235.83,
+      "tokens": 22,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "C14",
+      "category": "single_intent",
+      "user_input": "note moi de prendre un rendez-vous",
+      "expected": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"no_action\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "no_action"
+          }
+        }
+      ],
+      "latency_ms": 214.85,
+      "tokens": 15,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "D01",
+      "category": "multi_intent_ordered",
+      "user_input": "eteins la salle de bain et allume le salon",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "salle de bain"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_light\",\"args\":{\"room\":\"salle de bain\"}},{\"tool\":\"set_lighting\",\"args\":{\"room\":\"salon\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "salle de bain"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "latency_ms": 302.59,
+      "tokens": 33,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "D02",
+      "category": "multi_intent_ordered",
+      "user_input": "salon en detente et mets 22 degres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon",
+            "preset": "detente"
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 22
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_lighting\",\"args\":{\"room\":\"salon\",\"preset\":\"detente\"}},{\"tool\":\"set_temperature\",\"args\":{\"temperature\":22}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon",
+            "preset": "detente"
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 22
+          }
+        }
+      ],
+      "latency_ms": 298.61,
+      "tokens": 35,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "D03",
+      "category": "multi_intent_ordered",
+      "user_input": "eteins l enceinte puis allume le couloir",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "enceinte"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "couloir"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":[\"enceinte\"]}}, {\"tool\":\"set_lighting\",\"args\":{\"room\":\"couloir\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "enceinte"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "couloir"
+          }
+        }
+      ],
+      "latency_ms": 287.31,
+      "tokens": 33,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "D04",
+      "category": "multi_intent_ordered",
+      "user_input": "annule et allume la chambre",
+      "expected": [
+        {
+          "tool": "step_back",
+          "args": {}
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"step_back\",\"args\":{}},{\"tool\":\"set_lighting\",\"args\":{\"room\":\"chambre\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "step_back",
+          "args": {}
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre"
+          }
+        }
+      ],
+      "latency_ms": 231.45,
+      "tokens": 26,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "D05",
+      "category": "multi_intent_ordered",
+      "user_input": "lance l enceinte et mets la cuisine en lecture",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "enceinte"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "cuisine",
+            "preset": "lecture"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_on_devices\",\"args\":{\"devices\":[\"enceinte\"]}}, {\"tool\":\"set_lighting\",\"args\":{\"room\":\"cuisine\",\"preset\":\"lecture\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "enceinte"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "cuisine",
+            "preset": "lecture"
+          }
+        }
+      ],
+      "latency_ms": 290.88,
+      "tokens": 36,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "D06",
+      "category": "multi_intent_ordered",
+      "user_input": "coupe la tele du salon et eteins les lumieres du bureau",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": [
+              "salon"
+            ]
+          }
+        },
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "bureau"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":[\"tele\"],\"rooms\":[\"salon\"]}}, {\"tool\":\"turn_off_light\",\"args\":{\"room\":\"bureau\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ],
+            "rooms": [
+              "salon"
+            ]
+          }
+        },
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "bureau"
+          }
+        }
+      ],
+      "latency_ms": 302.31,
+      "tokens": 36,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "D07",
+      "category": "multi_intent_ordered",
+      "user_input": "chambre en nuit et humidite a 40",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre",
+            "preset": "nuit"
+          }
+        },
+        {
+          "tool": "set_humidity",
+          "args": {
+            "humidity": 40
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_lighting\",\"args\":{\"room\":\"chambre\",\"preset\":\"nuit\"}},{\"tool\":\"set_humidity\",\"args\":{\"humidity\":40,\"room\":\"chambre\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre",
+            "preset": "nuit"
+          }
+        },
+        {
+          "tool": "set_humidity",
+          "args": {
+            "humidity": 40,
+            "room": "chambre"
+          }
+        }
+      ],
+      "latency_ms": 316.67,
+      "tokens": 41,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "D08",
+      "category": "multi_intent_ordered",
+      "user_input": "allume le bureau et rappelle moi de fermer les fenetres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "bureau"
+          }
+        },
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_on_devices\",\"args\":{\"devices\":[\"bureau\"]}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "bureau"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 201.01,
+      "tokens": 16,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "D09",
+      "category": "multi_intent_ordered",
+      "user_input": "allume la chambre le salon et le couloir",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "couloir"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{\"room\":\"chambre\",\"room\":\"salon\",\"room\":\"couloir\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "couloir"
+          }
+        }
+      ],
+      "latency_ms": 253.99,
+      "tokens": 26,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "D10",
+      "category": "multi_intent_ordered",
+      "user_input": "baisse les lumieres de la chambre a 20 et mets 19 degres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre",
+            "intensite": 20
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"set_lighting\",\"args\":{\"room\":\"chambre\",\"intensite\":20}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre",
+            "intensite": 20
+          }
+        }
+      ],
+      "latency_ms": 234.8,
+      "tokens": 23,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "E01",
+      "category": "ambiguite",
+      "user_input": "il fait froid",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"no_value_given\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "no_value_given"
+          }
+        }
+      ],
+      "latency_ms": 169.12,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "E02",
+      "category": "ambiguite",
+      "user_input": "la lumiere",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"no_value_given\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "no_value_given"
+          }
+        }
+      ],
+      "latency_ms": 171.46,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "E03",
+      "category": "ambiguite",
+      "user_input": "augmente le chauffage",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_temperature\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {}
+        }
+      ],
+      "latency_ms": 154.18,
+      "tokens": 11,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "E04",
+      "category": "ambiguite",
+      "user_input": "humidite en ce moment",
+      "expected": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "humidite"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"get_sensor_data\",\"args\":{\"type\":\"humidite\"}}",
+      "parsed_calls": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "humidite"
+          }
+        }
+      ],
+      "latency_ms": 184.91,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "E05",
+      "category": "ambiguite",
+      "user_input": "eteins les lumieres du salon",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_off_light\",\"args\":{\"room\":\"salon\"}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "latency_ms": 192.2,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "E06",
+      "category": "ambiguite",
+      "user_input": "c est trop lumineux",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{\"intensite\":null}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "intensite": null
+          }
+        }
+      ],
+      "latency_ms": 163.72,
+      "tokens": 15,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "E07",
+      "category": "ambiguite",
+      "user_input": "la tele",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"no_value_given\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "no_value_given"
+          }
+        }
+      ],
+      "latency_ms": 175.0,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "E08",
+      "category": "ambiguite",
+      "user_input": "allume le salon s il te plait",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{\"room\":\"salon\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon"
+          }
+        }
+      ],
+      "latency_ms": 186.29,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "F01",
+      "category": "global_scope",
+      "user_input": "eteins toutes les lampes",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_off_light\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "latency_ms": 164.83,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "F02",
+      "category": "global_scope",
+      "user_input": "allume partout",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "latency_ms": 156.91,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "F03",
+      "category": "global_scope",
+      "user_input": "mode cinema",
+      "expected": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "cinema"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_global_preset\",\"args\":{\"preset\":\"cinema\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "cinema"
+          }
+        }
+      ],
+      "latency_ms": 182.57,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "F04",
+      "category": "global_scope",
+      "user_input": "passe en mode fete",
+      "expected": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "fete"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_global_preset\",\"args\":{\"preset\":\"fete\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "fete"
+          }
+        }
+      ],
+      "latency_ms": 187.81,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "F05",
+      "category": "global_scope",
+      "user_input": "eteins tous les appareils de la maison",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_off_devices\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        }
+      ],
+      "latency_ms": 182.11,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "F06",
+      "category": "global_scope",
+      "user_input": "allume les lumieres partout",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "latency_ms": 167.53,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "F07",
+      "category": "global_scope",
+      "user_input": "coupe toutes les lampes",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_off_light\",\"args\":{}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "latency_ms": 170.3,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "G01",
+      "category": "piege",
+      "user_input": "allume les spots du couloir",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "couloir",
+            "fixture": "spots"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{\"room\":\"couloir\",\"fixture\":\"spots\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "couloir",
+            "fixture": "spots"
+          }
+        }
+      ],
+      "latency_ms": 217.56,
+      "tokens": 20,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "G02",
+      "category": "piege",
+      "user_input": "eteins la cafetiere",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "cafetiere"
+            ]
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":[\"cafetiere\"]}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "cafetiere"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 194.74,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "G03",
+      "category": "piege",
+      "user_input": "mets le salon en detente",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon",
+            "preset": "detente"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{\"room\":\"salon\",\"preset\":\"detente\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salon",
+            "preset": "detente"
+          }
+        }
+      ],
+      "latency_ms": 236.92,
+      "tokens": 20,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "G04",
+      "category": "piege",
+      "user_input": "coupe le ventilateur",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "ventilateur"
+            ]
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":[\"ventilateur\"]}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "ventilateur"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 191.5,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "G05",
+      "category": "piege",
+      "user_input": "allume la guirlande du balcon",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "balcon",
+            "fixture": "guirlande"
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_lighting\",\"args\":{\"room\":\"balcon\",\"fixture\":\"guirlande\"}}",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "balcon",
+            "fixture": "guirlande"
+          }
+        }
+      ],
+      "latency_ms": 226.08,
+      "tokens": 21,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "G06",
+      "category": "piege",
+      "user_input": "eteins la tele et les lumieres de la cuisine",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "tele"
+            ]
+          }
+        },
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "cuisine"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":[\"tele\"]}},\"{\"tool\":\"turn_off_light\",\"args\":{\"room\":\"cuisine\"}}]",
+      "parsed_calls": null,
+      "latency_ms": 298.9,
+      "tokens": 32,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "H01",
+      "category": "hors_domotique",
+      "user_input": "dis moi une citation",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"hors_domotique\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "hors_domotique"
+          }
+        }
+      ],
+      "latency_ms": 184.73,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "H02",
+      "category": "hors_domotique",
+      "user_input": "quelle heure est-il",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"hors_domotique\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "hors_domotique"
+          }
+        }
+      ],
+      "latency_ms": 186.21,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "H03",
+      "category": "hors_domotique",
+      "user_input": "c est quoi ton nom",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"hors_domotique\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "hors_domotique"
+          }
+        }
+      ],
+      "latency_ms": 169.82,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "H04",
+      "category": "hors_domotique",
+      "user_input": "traduis bonjour en anglais",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"hors_domotique\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "hors_domotique"
+          }
+        }
+      ],
+      "latency_ms": 181.92,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "H05",
+      "category": "hors_domotique",
+      "user_input": "ouvre netflix",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"hors_domotique\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "hors_domotique"
+          }
+        }
+      ],
+      "latency_ms": 184.81,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "I01",
+      "category": "unknown_entities",
+      "user_input": "allume le sous-sol",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"hors_domotique\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "hors_domotique"
+          }
+        }
+      ],
+      "latency_ms": 206.65,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "I02",
+      "category": "unknown_entities",
+      "user_input": "mode concentration",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"unknown_entity\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "unknown_entity"
+          }
+        }
+      ],
+      "latency_ms": 175.83,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "I03",
+      "category": "unknown_entities",
+      "user_input": "eteins le climatiseur",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"turn_off_devices\",\"args\":{\"devices\":[\"climatiseur\"]}}",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "climatiseur"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 180.87,
+      "tokens": 17,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "I04",
+      "category": "unknown_entities",
+      "user_input": "mets 22 degres dans la cave",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"set_temperature\",\"args\":{\"temperature\":22}}",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 22
+          }
+        }
+      ],
+      "latency_ms": 213.37,
+      "tokens": 14,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "I05",
+      "category": "unknown_entities",
+      "user_input": "allume la piece de jeux",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"unknown_entity\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "unknown_entity"
+          }
+        }
+      ],
+      "latency_ms": 177.37,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "I06",
+      "category": "unknown_entities",
+      "user_input": "preset zen",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "{\"tool\":\"do_nothing\",\"args\":{\"reason\":\"unknown_entity\"}}",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "unknown_entity"
+          }
+        }
+      ],
+      "latency_ms": 173.12,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    }
+  ]
+}

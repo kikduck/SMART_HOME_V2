@@ -1,0 +1,56 @@
+{"id": "BC01", "category": "single_intent", "user_input": "ouvre l ecran", "expected": [{"tool": "turn_on_devices", "args": {"devices": ["ecran"]}}]}
+{"id": "BC02", "category": "single_intent", "user_input": "illumine la terrasse", "expected": [{"tool": "set_lighting", "args": {"room": "terrasse"}}]}
+{"id": "BC03", "category": "single_intent", "user_input": "stoppe le robot aspirateur", "expected": [{"tool": "turn_off_devices", "args": {"devices": ["robot aspirateur"]}}]}
+{"id": "BC04", "category": "single_intent", "user_input": "regle l humidite a 60", "expected": [{"tool": "set_humidity", "args": {"humidity": 60}}]}
+{"id": "BC05", "category": "single_intent", "user_input": "19 degres dans la cave", "expected": [{"tool": "set_temperature", "args": {"temperature": 19, "room": "cave"}}]}
+{"id": "BC06", "category": "single_intent", "user_input": "taux de co2 bureau", "expected": [{"tool": "get_sensor_data", "args": {"type": "co2", "room": "bureau"}}]}
+{"id": "BC07", "category": "single_intent", "user_input": "rappelle moi d arroser les plantes vendredi", "expected": [{"tool": "set_reminder", "args": {"message": true, "date": true}}]}
+{"id": "BC08", "category": "single_intent", "user_input": "allume l applique murale", "expected": [{"tool": "set_lighting", "args": {"fixture": "applique murale"}}]}
+{"id": "BC09", "category": "single_intent", "user_input": "sejour en mode romantique", "expected": [{"tool": "set_lighting", "args": {"room": "sejour", "preset": "romantique"}}]}
+{"id": "BC10", "category": "single_intent", "user_input": "24 degres", "expected": [{"tool": "set_temperature", "args": {"temperature": 24}}]}
+{"id": "BC11", "category": "single_intent", "user_input": "defais la derniere action", "expected": [{"tool": "step_back", "args": {}}]}
+{"id": "BC12", "category": "single_intent", "user_input": "humidite de la cuisine", "expected": [{"tool": "get_sensor_data", "args": {"type": "humidite", "room": "cuisine"}}]}
+{"id": "BC13", "category": "single_intent", "user_input": "lance le congelateur", "expected": [{"tool": "turn_on_devices", "args": {"devices": ["congelateur"]}}]}
+{"id": "BC14", "category": "single_intent", "user_input": "rappelle moi de payer la facture", "expected": [{"tool": "set_reminder", "args": {"message": true}}]}
+{"id": "BD01", "category": "multi_intent_ordered", "user_input": "eteins la cave et allume le sejour", "expected": [{"tool": "turn_off_light", "args": {"room": "cave"}}, {"tool": "set_lighting", "args": {"room": "sejour"}}]}
+{"id": "BD02", "category": "multi_intent_ordered", "user_input": "sejour en soiree et mets 21 degres", "expected": [{"tool": "set_lighting", "args": {"room": "sejour", "preset": "soiree"}}, {"tool": "set_temperature", "args": {"temperature": 21}}]}
+{"id": "BD03", "category": "multi_intent_ordered", "user_input": "stoppe l enceinte puis allume la salle a manger", "expected": [{"tool": "turn_off_devices", "args": {"devices": ["enceinte"]}}, {"tool": "set_lighting", "args": {"room": "salle a manger"}}]}
+{"id": "BD04", "category": "multi_intent_ordered", "user_input": "annule et allume la chambre parentale", "expected": [{"tool": "step_back", "args": {}}, {"tool": "set_lighting", "args": {"room": "chambre parentale"}}]}
+{"id": "BD05", "category": "multi_intent_ordered", "user_input": "lance l enceinte et eclaire la cuisine en lecture", "expected": [{"tool": "turn_on_devices", "args": {"devices": ["enceinte"]}}, {"tool": "set_lighting", "args": {"room": "cuisine", "preset": "lecture"}}]}
+{"id": "BD06", "category": "multi_intent_ordered", "user_input": "coupe la soundbar du sejour et eteins la terrasse", "expected": [{"tool": "turn_off_devices", "args": {"devices": ["soundbar"], "rooms": ["sejour"]}}, {"tool": "turn_off_light", "args": {"room": "terrasse"}}]}
+{"id": "BD07", "category": "multi_intent_ordered", "user_input": "chambre enfant en nuit et humidite a 45", "expected": [{"tool": "set_lighting", "args": {"room": "chambre enfant", "preset": "nuit"}}, {"tool": "set_humidity", "args": {"humidity": 45}}]}
+{"id": "BD08", "category": "multi_intent_ordered", "user_input": "allume la terrasse et rappelle moi d acheter du vin", "expected": [{"tool": "set_lighting", "args": {"room": "terrasse"}}, {"tool": "set_reminder", "args": {"message": true}}]}
+{"id": "BD09", "category": "multi_intent_ordered", "user_input": "allume le sejour la salle a manger et la terrasse", "expected": [{"tool": "set_lighting", "args": {"room": "sejour"}}, {"tool": "set_lighting", "args": {"room": "salle a manger"}}, {"tool": "set_lighting", "args": {"room": "terrasse"}}]}
+{"id": "BD10", "category": "multi_intent_ordered", "user_input": "baisse les lumieres du sejour a 30 et mets 20 degres", "expected": [{"tool": "set_lighting", "args": {"room": "sejour", "intensite": 30}}, {"tool": "set_temperature", "args": {"temperature": 20}}]}
+{"id": "BE01", "category": "ambiguite", "user_input": "il fait trop chaud", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BE02", "category": "ambiguite", "user_input": "la suspension", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BE03", "category": "ambiguite", "user_input": "monte le chauffage", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BE04", "category": "ambiguite", "user_input": "humidite actuelle", "expected": [{"tool": "get_sensor_data", "args": {"type": "humidite"}}]}
+{"id": "BE05", "category": "ambiguite", "user_input": "eteins les lumieres du bureau", "expected": [{"tool": "turn_off_light", "args": {"room": "bureau"}}]}
+{"id": "BE06", "category": "ambiguite", "user_input": "c est un peu sombre ici", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BE07", "category": "ambiguite", "user_input": "l ecran", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BE08", "category": "ambiguite", "user_input": "allume le sejour s il te plait", "expected": [{"tool": "set_lighting", "args": {"room": "sejour"}}]}
+{"id": "BF01", "category": "global_scope", "user_input": "eteins toutes les lampes", "expected": [{"tool": "turn_off_light", "args": {}}]}
+{"id": "BF02", "category": "global_scope", "user_input": "allume partout", "expected": [{"tool": "set_lighting", "args": {}}]}
+{"id": "BF03", "category": "global_scope", "user_input": "mode sieste", "expected": [{"tool": "set_global_preset", "args": {"preset": "sieste"}}]}
+{"id": "BF04", "category": "global_scope", "user_input": "passe en mode soiree", "expected": [{"tool": "set_global_preset", "args": {"preset": "soiree"}}]}
+{"id": "BF05", "category": "global_scope", "user_input": "eteins tous les appareils de la maison", "expected": [{"tool": "turn_off_devices", "args": {}}]}
+{"id": "BF06", "category": "global_scope", "user_input": "allume les lumieres partout", "expected": [{"tool": "set_lighting", "args": {}}]}
+{"id": "BF07", "category": "global_scope", "user_input": "coupe toutes les lampes", "expected": [{"tool": "turn_off_light", "args": {}}]}
+{"id": "BH01", "category": "piege", "user_input": "allume la liseuse gauche", "expected": [{"tool": "set_lighting", "args": {"fixture": "liseuse gauche"}}]}
+{"id": "BH02", "category": "piege", "user_input": "allume la lumiere", "expected": [{"tool": "set_lighting", "args": {}}]}
+{"id": "BH03", "category": "piege", "user_input": "mets le sejour en romantique", "expected": [{"tool": "set_lighting", "args": {"room": "sejour", "preset": "romantique"}}]}
+{"id": "BH04", "category": "piege", "user_input": "stoppe le store electrique de la chambre parentale", "expected": [{"tool": "turn_off_devices", "args": {"devices": ["store electrique"], "rooms": ["chambre parentale"]}}]}
+{"id": "BH05", "category": "piege", "user_input": "allume la guirlande de la terrasse a 80", "expected": [{"tool": "set_lighting", "args": {"room": "terrasse", "fixture": "guirlande", "intensite": 80}}]}
+{"id": "BH06", "category": "piege", "user_input": "allume la soundbar de la salle a manger et baisse les lumieres a 40", "expected": [{"tool": "turn_on_devices", "args": {"devices": ["soundbar"], "rooms": ["salle a manger"]}}, {"tool": "set_lighting", "args": {"room": "salle a manger", "intensite": 40}}]}
+{"id": "BI01", "category": "hors_domotique", "user_input": "donne moi une recette de cuisine", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BI02", "category": "hors_domotique", "user_input": "quelle est la date aujourd hui", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BI03", "category": "hors_domotique", "user_input": "comment dit-on merci en japonais", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BI04", "category": "hors_domotique", "user_input": "previsions meteo pour la semaine", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BI05", "category": "hors_domotique", "user_input": "mets de la musique classique", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BJ01", "category": "unknown_entities", "user_input": "allume le grenier", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BJ02", "category": "unknown_entities", "user_input": "mode zen", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BJ03", "category": "unknown_entities", "user_input": "eteins le lave-vaisselle", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BJ04", "category": "unknown_entities", "user_input": "mets 20 degres dans le couloir", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BJ05", "category": "unknown_entities", "user_input": "allume le salon", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BJ06", "category": "unknown_entities", "user_input": "mode sport", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}

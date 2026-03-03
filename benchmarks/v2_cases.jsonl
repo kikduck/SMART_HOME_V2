@@ -1,0 +1,60 @@
+{"id":"S01","category":"single_intent","user_input":"allume le salon","expected":[{"tool":"set_lighting","args":{"room":"salon"}}]}
+{"id":"S02","category":"single_intent","user_input":"mets le bureau en lecture","expected":[{"tool":"set_lighting","args":{"room":"bureau","preset":"lecture"}}]}
+{"id":"S03","category":"single_intent","user_input":"allume la tele du salon","expected":[{"tool":"turn_on_devices","args":{"devices":["tele"],"rooms":["salon"]}}]}
+{"id":"S04","category":"single_intent","user_input":"eteins la radio","expected":[{"tool":"turn_off_devices","args":{"devices":["radio"]}}]}
+{"id":"S05","category":"single_intent","user_input":"mets 21 degres dans la chambre","expected":[{"tool":"set_temperature","args":{"temperature":21,"room":"chambre"}}]}
+{"id":"S06","category":"single_intent","user_input":"humidite du salon","expected":[{"tool":"get_sensor_data","args":{"type":"humidite","room":"salon"}}]}
+{"id":"S07","category":"single_intent","user_input":"rappelle moi d appeler maman demain","expected":[{"tool":"set_reminder","args":{"message":true,"date":"demain"}}]}
+{"id":"S08","category":"single_intent","user_input":"allume le plafond du salon","expected":[{"tool":"set_lighting","args":{"room":"salon","fixture":"plafond"}}]}
+{"id":"S09","category":"single_intent","user_input":"baisse les lumieres du bureau a 40","expected":[{"tool":"set_lighting","args":{"room":"bureau","intensite":40}}]}
+{"id":"S10","category":"single_intent","user_input":"mets 20 degres","expected":[{"tool":"set_temperature","args":{"temperature":20}}]}
+{"id":"S11","category":"single_intent","user_input":"annule","expected":[{"tool":"step_back","args":{}}]}
+{"id":"S12","category":"single_intent","user_input":"humidite chambre","expected":[{"tool":"get_sensor_data","args":{"type":"humidite","room":"chambre"}}]}
+{"id":"S13","category":"single_intent","user_input":"allume la cafetiere","expected":[{"tool":"turn_on_devices","args":{"devices":["cafetiere"]}}]}
+{"id":"S14","category":"single_intent","user_input":"rappelle moi de sortir les poubelles","expected":[{"tool":"set_reminder","args":{"message":true}}]}
+{"id":"S15","category":"single_intent","user_input":"mode reveil","expected":[{"tool":"set_global_preset","args":{"preset":"reveil"}}]}
+{"id":"S16","category":"single_intent","user_input":"taux de co2 du bureau","expected":[{"tool":"get_sensor_data","args":{"type":"co2","room":"bureau"}}]}
+{"id":"M01","category":"multi_intent_ordered","user_input":"eteins la cuisine et allume le salon","expected":[{"tool":"turn_off_light","args":{"room":"cuisine"}},{"tool":"set_lighting","args":{"room":"salon"}}]}
+{"id":"M02","category":"multi_intent_ordered","user_input":"eteins tous les appareils puis mets le salon en cinema","expected":[{"tool":"turn_off_devices","args":{}},{"tool":"set_lighting","args":{"room":"salon","preset":"cinema"}}]}
+{"id":"M03","category":"multi_intent_ordered","user_input":"allume la chambre puis mets 19 degres","expected":[{"tool":"set_lighting","args":{"room":"chambre"}},{"tool":"set_temperature","args":{"temperature":19}}]}
+{"id":"M04","category":"multi_intent_ordered","user_input":"annule et eteins tout","expected":[{"tool":"step_back","args":{}},{"tool":"turn_off_light","args":{}}]}
+{"id":"M05","category":"multi_intent_ordered","user_input":"allume la tele et eteins le salon","expected":[{"tool":"turn_on_devices","args":{"devices":["tele"]}},{"tool":"turn_off_light","args":{"room":"salon"}}]}
+{"id":"M06","category":"multi_intent_ordered","user_input":"allume le bureau et lance la radio","expected":[{"tool":"set_lighting","args":{"room":"bureau"}},{"tool":"turn_on_devices","args":{"devices":["radio"]}}]}
+{"id":"M07","category":"multi_intent_ordered","user_input":"mets le salon en lecture et eteins la chambre","expected":[{"tool":"set_lighting","args":{"room":"salon","preset":"lecture"}},{"tool":"turn_off_light","args":{"room":"chambre"}}]}
+{"id":"M08","category":"multi_intent_ordered","user_input":"eteins la chambre et le bureau","expected":[{"tool":"turn_off_light","args":{"room":"chambre"}},{"tool":"turn_off_light","args":{"room":"bureau"}}]}
+{"id":"M09","category":"multi_intent_ordered","user_input":"mode cinema et mets 19 degres dans la chambre","expected":[{"tool":"set_global_preset","args":{"preset":"cinema"}},{"tool":"set_temperature","args":{"temperature":19,"room":"chambre"}}]}
+{"id":"M10","category":"multi_intent_ordered","user_input":"allume le salon mets 21 degres et rappelle moi de fermer les volets","expected":[{"tool":"set_lighting","args":{"room":"salon"}},{"tool":"set_temperature","args":{"temperature":21}},{"tool":"set_reminder","args":{"message":true}}]}
+{"id":"M11","category":"multi_intent_ordered","user_input":"mets le bureau en travail et lance l ecran du bureau","expected":[{"tool":"set_lighting","args":{"room":"bureau","preset":"travail"}},{"tool":"turn_on_devices","args":{"devices":["ecran"],"rooms":["bureau"]}}]}
+{"id":"A01","category":"ambiguite","user_input":"allume le salon","expected":[{"tool":"set_lighting","args":{"room":"salon"}}]}
+{"id":"A02","category":"ambiguite","user_input":"eteins tout","expected":[{"tool":"turn_off_light","args":{}}]}
+{"id":"A03","category":"ambiguite","user_input":"coupe tous les appareils","expected":[{"tool":"turn_off_devices","args":{}}]}
+{"id":"A04","category":"ambiguite","user_input":"temperature salon","expected":[{"tool":"get_sensor_data","args":{"type":"temperature","room":"salon"}}]}
+{"id":"A05","category":"ambiguite","user_input":"mets la tele en cinema","expected":[{"tool":"turn_on_devices","args":{"devices":["tele"]}}]}
+{"id":"A06","category":"ambiguite","user_input":"il fait chaud ici","expected":[{"tool":"do_nothing","args":{"reason":true}}]}
+{"id":"A07","category":"ambiguite","user_input":"combien il fait dans le salon","expected":[{"tool":"get_sensor_data","args":{"type":"temperature","room":"salon"}}]}
+{"id":"A08","category":"ambiguite","user_input":"baisse le chauffage","expected":[{"tool":"do_nothing","args":{"reason":true}}]}
+{"id":"A09","category":"ambiguite","user_input":"la lumiere du salon","expected":[{"tool":"do_nothing","args":{"reason":true}}]}
+{"id":"G01","category":"global_scope","user_input":"eteins toutes les lumieres","expected":[{"tool":"turn_off_light","args":{}}]}
+{"id":"G02","category":"global_scope","user_input":"eteins tous les appareils","expected":[{"tool":"turn_off_devices","args":{}}]}
+{"id":"G03","category":"global_scope","user_input":"allume toute la maison","expected":[{"tool":"set_lighting","args":{}}]}
+{"id":"G04","category":"global_scope","user_input":"mode depart","expected":[{"tool":"set_global_preset","args":{"preset":"depart"}}]}
+{"id":"G05","category":"global_scope","user_input":"allume toutes les lumieres","expected":[{"tool":"set_lighting","args":{}}]}
+{"id":"G06","category":"global_scope","user_input":"mode nuit","expected":[{"tool":"set_global_preset","args":{"preset":"nuit"}}]}
+{"id":"G07","category":"global_scope","user_input":"coupe tout","expected":[{"tool":"turn_off_light","args":{}},{"tool":"turn_off_devices","args":{}}]}
+{"id":"P01","category":"piege","user_input":"allume la lampe de chevet","expected":[{"tool":"set_lighting","args":{"fixture":"lampe de chevet"}}]}
+{"id":"P02","category":"piege","user_input":"allume la lumiere","expected":[{"tool":"set_lighting","args":{}}]}
+{"id":"P03","category":"piege","user_input":"mets la chambre en cinema","expected":[{"tool":"set_lighting","args":{"room":"chambre","preset":"cinema"}}]}
+{"id":"P04","category":"piege","user_input":"eteins le ventilateur de la chambre","expected":[{"tool":"turn_off_devices","args":{"devices":["ventilateur"],"rooms":["chambre"]}}]}
+{"id":"P05","category":"piege","user_input":"allume le ruban led du salon a 50","expected":[{"tool":"set_lighting","args":{"room":"salon","fixture":"ruban led","intensite":50}}]}
+{"id":"P06","category":"piege","user_input":"allume la tele du salon et baisse les lumieres du salon a 20","expected":[{"tool":"turn_on_devices","args":{"devices":["tele"],"rooms":["salon"]}},{"tool":"set_lighting","args":{"room":"salon","intensite":20}}]}
+{"id":"O01","category":"hors_domotique","user_input":"raconte une blague","expected":[{"tool":"do_nothing","args":{"reason":true}}]}
+{"id":"O02","category":"hors_domotique","user_input":"quelle est la capitale de l italie","expected":[{"tool":"do_nothing","args":{"reason":true}}]}
+{"id":"O03","category":"hors_domotique","user_input":"calcule 17 fois 9","expected":[{"tool":"do_nothing","args":{"reason":true}}]}
+{"id":"O04","category":"hors_domotique","user_input":"quel temps fait-il dehors","expected":[{"tool":"do_nothing","args":{"reason":true}}]}
+{"id":"O05","category":"hors_domotique","user_input":"joue de la musique jazz","expected":[{"tool":"do_nothing","args":{"reason":true}}]}
+{"id":"U01","category":"unknown_entities","user_input":"allume l atelier","expected":[{"tool":"get_current_knowledge","args":{}}]}
+{"id":"U02","category":"unknown_entities","user_input":"active le mode vacances","expected":[{"tool":"get_current_knowledge","args":{}}]}
+{"id":"U03","category":"unknown_entities","user_input":"eteins le projecteur du grenier","expected":[{"tool":"get_current_knowledge","args":{}}]}
+{"id":"U04","category":"unknown_entities","user_input":"mode jardin","expected":[{"tool":"get_current_knowledge","args":{}}]}
+{"id":"U05","category":"unknown_entities","user_input":"mets 20 degres dans le garage","expected":[{"tool":"get_current_knowledge","args":{}}]}
+{"id":"U06","category":"unknown_entities","user_input":"allume la salle de sport","expected":[{"tool":"get_current_knowledge","args":{}}]}

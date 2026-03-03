@@ -1,0 +1,5 @@
+# Modèles GGUF (téléchargés via download_model.sh)
+models/*.gguf
+
+# Logs
+logs/*.log

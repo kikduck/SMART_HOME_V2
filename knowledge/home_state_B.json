@@ -1,0 +1,68 @@
+{
+  "version": "2026-03-02-v1",
+  "house_name": "Villa des Pins",
+  "rooms": {
+    "sejour": {
+      "lights": ["suspension", "spots encastres", "lampe arc"],
+      "devices": ["tele", "soundbar", "climatiseur"],
+      "sensors": ["temperature", "co2"]
+    },
+    "salle a manger": {
+      "lights": ["lustre", "bougies led"],
+      "devices": ["enceinte"],
+      "sensors": ["temperature"]
+    },
+    "chambre parentale": {
+      "lights": ["plafonnier", "liseuse gauche", "liseuse droite"],
+      "devices": ["climatiseur", "store electrique"],
+      "sensors": ["temperature", "humidite"]
+    },
+    "chambre enfant": {
+      "lights": ["plafonnier", "veilleuse"],
+      "devices": ["radio"],
+      "sensors": ["temperature", "humidite"]
+    },
+    "bureau": {
+      "lights": ["plafonnier", "reglette"],
+      "devices": ["ecran", "imprimante"],
+      "sensors": ["co2"]
+    },
+    "cuisine": {
+      "lights": ["plafonnier", "hotte lumineuse"],
+      "devices": ["cafetiere", "robot aspirateur"],
+      "sensors": ["temperature", "humidite"]
+    },
+    "terrasse": {
+      "lights": ["guirlande", "applique murale"],
+      "devices": ["parasol electrique"],
+      "sensors": ["temperature"]
+    },
+    "cave": {
+      "lights": ["neon"],
+      "devices": ["congelateur"],
+      "sensors": ["temperature", "humidite"]
+    }
+  },
+  "presets": {
+    "lighting": {
+      "lecture": {},
+      "cinema": {},
+      "romantique": {},
+      "soiree": {},
+      "nuit": {}
+    },
+    "global": {
+      "soiree": {},
+      "nuit": {},
+      "depart": {},
+      "reveil": {},
+      "sieste": {}
+    }
+  },
+  "sensor_types": {
+    "temperature": {},
+    "humidite": {},
+    "qualite_air": {},
+    "co2": {}
+  }
+}

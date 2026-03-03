@@ -1,0 +1,19 @@
+# Smart Home V2 Admin - Déploiement Docker
+# Build: cd SMART_HOME_V2 && docker compose -f admin/docker-compose.yml up -d
+version: "3.8"
+
+services:
+  admin:
+    build:
+      context: ..
+      dockerfile: admin/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persistance des configs éditées
+      - ../knowledge:/app/knowledge
+      - ../schemas:/app/schemas
+      - ../prompts:/app/prompts
+    environment:
+      - SMART_HOME_BASE=/app
+    restart: unless-stopped

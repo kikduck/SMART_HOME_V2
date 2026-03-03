@@ -1,0 +1,60 @@
+{"id": "BS01", "category": "single_intent", "user_input": "allume le sejour", "expected": [{"tool": "set_lighting", "args": {"room": "sejour"}}]}
+{"id": "BS02", "category": "single_intent", "user_input": "mets le bureau en lecture", "expected": [{"tool": "set_lighting", "args": {"room": "bureau", "preset": "lecture"}}]}
+{"id": "BS03", "category": "single_intent", "user_input": "allume la tele du sejour", "expected": [{"tool": "turn_on_devices", "args": {"devices": ["tele"], "rooms": ["sejour"]}}]}
+{"id": "BS04", "category": "single_intent", "user_input": "eteins la radio", "expected": [{"tool": "turn_off_devices", "args": {"devices": ["radio"]}}]}
+{"id": "BS05", "category": "single_intent", "user_input": "mets 20 degres dans la chambre parentale", "expected": [{"tool": "set_temperature", "args": {"temperature": 20, "room": "chambre parentale"}}]}
+{"id": "BS06", "category": "single_intent", "user_input": "humidite de la chambre parentale", "expected": [{"tool": "get_sensor_data", "args": {"type": "humidite", "room": "chambre parentale"}}]}
+{"id": "BS07", "category": "single_intent", "user_input": "rappelle moi d appeler le plombier lundi", "expected": [{"tool": "set_reminder", "args": {"message": true, "date": true}}]}
+{"id": "BS08", "category": "single_intent", "user_input": "allume le plafonnier du bureau", "expected": [{"tool": "set_lighting", "args": {"room": "bureau", "fixture": "plafonnier"}}]}
+{"id": "BS09", "category": "single_intent", "user_input": "baisse les lumieres du sejour a 30", "expected": [{"tool": "set_lighting", "args": {"room": "sejour", "intensite": 30}}]}
+{"id": "BS10", "category": "single_intent", "user_input": "mets 22 degres", "expected": [{"tool": "set_temperature", "args": {"temperature": 22}}]}
+{"id": "BS11", "category": "single_intent", "user_input": "annule ca", "expected": [{"tool": "step_back", "args": {}}]}
+{"id": "BS12", "category": "single_intent", "user_input": "co2 dans le bureau", "expected": [{"tool": "get_sensor_data", "args": {"type": "co2", "room": "bureau"}}]}
+{"id": "BS13", "category": "single_intent", "user_input": "demarre la cafetiere", "expected": [{"tool": "turn_on_devices", "args": {"devices": ["cafetiere"]}}]}
+{"id": "BS14", "category": "single_intent", "user_input": "rappelle moi de recharger la voiture ce soir", "expected": [{"tool": "set_reminder", "args": {"message": true, "date": true}}]}
+{"id": "BS15", "category": "single_intent", "user_input": "mode reveil", "expected": [{"tool": "set_global_preset", "args": {"preset": "reveil"}}]}
+{"id": "BS16", "category": "single_intent", "user_input": "temperature de la terrasse", "expected": [{"tool": "get_sensor_data", "args": {"type": "temperature", "room": "terrasse"}}]}
+{"id": "BM01", "category": "multi_intent_ordered", "user_input": "eteins la cuisine et allume le sejour", "expected": [{"tool": "turn_off_light", "args": {"room": "cuisine"}}, {"tool": "set_lighting", "args": {"room": "sejour"}}]}
+{"id": "BM02", "category": "multi_intent_ordered", "user_input": "eteins tous les appareils puis mets le sejour en cinema", "expected": [{"tool": "turn_off_devices", "args": {}}, {"tool": "set_lighting", "args": {"room": "sejour", "preset": "cinema"}}]}
+{"id": "BM03", "category": "multi_intent_ordered", "user_input": "allume la chambre parentale puis mets 19 degres", "expected": [{"tool": "set_lighting", "args": {"room": "chambre parentale"}}, {"tool": "set_temperature", "args": {"temperature": 19}}]}
+{"id": "BM04", "category": "multi_intent_ordered", "user_input": "annule et eteins tout", "expected": [{"tool": "step_back", "args": {}}, {"tool": "turn_off_light", "args": {}}]}
+{"id": "BM05", "category": "multi_intent_ordered", "user_input": "allume la soundbar et eteins le sejour", "expected": [{"tool": "turn_on_devices", "args": {"devices": ["soundbar"]}}, {"tool": "turn_off_light", "args": {"room": "sejour"}}]}
+{"id": "BM06", "category": "multi_intent_ordered", "user_input": "allume le bureau et lance l ecran", "expected": [{"tool": "set_lighting", "args": {"room": "bureau"}}, {"tool": "turn_on_devices", "args": {"devices": ["ecran"]}}]}
+{"id": "BM07", "category": "multi_intent_ordered", "user_input": "mets la salle a manger en soiree et eteins la chambre enfant", "expected": [{"tool": "set_lighting", "args": {"room": "salle a manger", "preset": "soiree"}}, {"tool": "turn_off_light", "args": {"room": "chambre enfant"}}]}
+{"id": "BM08", "category": "multi_intent_ordered", "user_input": "eteins la chambre enfant et la chambre parentale", "expected": [{"tool": "turn_off_light", "args": {"room": "chambre enfant"}}, {"tool": "turn_off_light", "args": {"room": "chambre parentale"}}]}
+{"id": "BM09", "category": "multi_intent_ordered", "user_input": "mode soiree et mets 21 degres dans le sejour", "expected": [{"tool": "set_global_preset", "args": {"preset": "soiree"}}, {"tool": "set_temperature", "args": {"temperature": 21, "room": "sejour"}}]}
+{"id": "BM10", "category": "multi_intent_ordered", "user_input": "allume le sejour mets 20 degres et rappelle moi de sortir la poubelle", "expected": [{"tool": "set_lighting", "args": {"room": "sejour"}}, {"tool": "set_temperature", "args": {"temperature": 20}}, {"tool": "set_reminder", "args": {"message": true}}]}
+{"id": "BM11", "category": "multi_intent_ordered", "user_input": "mets le bureau en lecture et lance l imprimante", "expected": [{"tool": "set_lighting", "args": {"room": "bureau", "preset": "lecture"}}, {"tool": "turn_on_devices", "args": {"devices": ["imprimante"]}}]}
+{"id": "BA01", "category": "ambiguite", "user_input": "allume le sejour", "expected": [{"tool": "set_lighting", "args": {"room": "sejour"}}]}
+{"id": "BA02", "category": "ambiguite", "user_input": "eteins tout", "expected": [{"tool": "turn_off_light", "args": {}}]}
+{"id": "BA03", "category": "ambiguite", "user_input": "coupe tous les appareils", "expected": [{"tool": "turn_off_devices", "args": {}}]}
+{"id": "BA04", "category": "ambiguite", "user_input": "temperature sejour", "expected": [{"tool": "get_sensor_data", "args": {"type": "temperature", "room": "sejour"}}]}
+{"id": "BA05", "category": "ambiguite", "user_input": "mets la tele en soiree", "expected": [{"tool": "turn_on_devices", "args": {"devices": ["tele"]}}]}
+{"id": "BA06", "category": "ambiguite", "user_input": "il fait trop froid", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BA07", "category": "ambiguite", "user_input": "c est combien dans le sejour", "expected": [{"tool": "get_sensor_data", "args": {"type": "temperature", "room": "sejour"}}]}
+{"id": "BA08", "category": "ambiguite", "user_input": "baisser le chauffage", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BA09", "category": "ambiguite", "user_input": "la suspension", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BG01", "category": "global_scope", "user_input": "eteins toutes les lumieres", "expected": [{"tool": "turn_off_light", "args": {}}]}
+{"id": "BG02", "category": "global_scope", "user_input": "eteins tous les appareils", "expected": [{"tool": "turn_off_devices", "args": {}}]}
+{"id": "BG03", "category": "global_scope", "user_input": "allume toute la maison", "expected": [{"tool": "set_lighting", "args": {}}]}
+{"id": "BG04", "category": "global_scope", "user_input": "mode depart", "expected": [{"tool": "set_global_preset", "args": {"preset": "depart"}}]}
+{"id": "BG05", "category": "global_scope", "user_input": "allume toutes les lumieres", "expected": [{"tool": "set_lighting", "args": {}}]}
+{"id": "BG06", "category": "global_scope", "user_input": "mode nuit", "expected": [{"tool": "set_global_preset", "args": {"preset": "nuit"}}]}
+{"id": "BG07", "category": "global_scope", "user_input": "coupe tout", "expected": [{"tool": "turn_off_light", "args": {}}, {"tool": "turn_off_devices", "args": {}}]}
+{"id": "BP01", "category": "piege", "user_input": "allume la veilleuse", "expected": [{"tool": "set_lighting", "args": {"fixture": "veilleuse"}}]}
+{"id": "BP02", "category": "piege", "user_input": "allume la lumiere", "expected": [{"tool": "set_lighting", "args": {}}]}
+{"id": "BP03", "category": "piege", "user_input": "mets la chambre parentale en cinema", "expected": [{"tool": "set_lighting", "args": {"room": "chambre parentale", "preset": "cinema"}}]}
+{"id": "BP04", "category": "piege", "user_input": "eteins le climatiseur du sejour", "expected": [{"tool": "turn_off_devices", "args": {"devices": ["climatiseur"], "rooms": ["sejour"]}}]}
+{"id": "BP05", "category": "piege", "user_input": "allume la guirlande de la terrasse a 60", "expected": [{"tool": "set_lighting", "args": {"room": "terrasse", "fixture": "guirlande", "intensite": 60}}]}
+{"id": "BP06", "category": "piege", "user_input": "allume la soundbar du sejour et baisse les lumieres du sejour a 20", "expected": [{"tool": "turn_on_devices", "args": {"devices": ["soundbar"], "rooms": ["sejour"]}}, {"tool": "set_lighting", "args": {"room": "sejour", "intensite": 20}}]}
+{"id": "BO01", "category": "hors_domotique", "user_input": "raconte moi une histoire", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BO02", "category": "hors_domotique", "user_input": "quel est le meilleur film du moment", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BO03", "category": "hors_domotique", "user_input": "combien font 8 fois 7", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BO04", "category": "hors_domotique", "user_input": "quelle meteo demain", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BO05", "category": "hors_domotique", "user_input": "joue une chanson de noel", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BU01", "category": "unknown_entities", "user_input": "allume le grenier", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BU02", "category": "unknown_entities", "user_input": "active le mode vacances", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BU03", "category": "unknown_entities", "user_input": "eteins le projecteur du garage", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BU04", "category": "unknown_entities", "user_input": "mode jardin", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BU05", "category": "unknown_entities", "user_input": "mets 18 degres dans le sous-sol", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}
+{"id": "BU06", "category": "unknown_entities", "user_input": "allume la salle de sport", "expected": [{"tool": "do_nothing", "args": {"reason": true}}]}

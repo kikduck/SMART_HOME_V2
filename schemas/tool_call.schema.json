@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://smarthome-v2.local/schemas/tool_call.schema.json",
+  "title": "SmartHome V2 Tool Call",
+  "type": "object",
+  "required": ["tool", "args"],
+  "additionalProperties": false,
+  "properties": {
+    "tool": {
+      "type": "string",
+      "enum": [
+        "set_lighting",
+        "turn_off_light",
+        "set_temperature",
+        "set_humidity",
+        "get_sensor_data",
+        "turn_on_devices",
+        "turn_off_devices",
+        "set_global_preset",
+        "set_reminder",
+        "step_back",
+        "do_nothing",
+        "get_current_knowledge",
+        "upsert_home_entity"
+      ]
+    },
+    "args": {
+      "type": "object",
+      "default": {}
+    }
+  }
+}
+

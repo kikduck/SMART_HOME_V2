@@ -1,0 +1,2602 @@
+{
+  "meta": {
+    "timestamp_utc": "2026-03-03T12:54:54.836888+00:00",
+    "model": "D:\\PROG\\TEST\\SMART_HOME\\gguf_models\\Qwen3.5-2B-Q6_K.gguf",
+    "decompose": true,
+    "entity_filter": true,
+    "benchmark_mode": "stateless",
+    "slot_id": null,
+    "cache_prompt_hint": false,
+    "prod_like_user_only": false,
+    "cases_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\benchmarks\\cases_B2.jsonl",
+    "prompt_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\prompts\\system_prompt_v2.txt",
+    "contracts_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\schemas\\tools_contracts.json",
+    "home_state_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\knowledge\\home_state_B.json",
+    "aliases_file": "D:\\PROG\\TEST\\SMART_HOME_V2\\knowledge\\aliases.json",
+    "base_url": "http://127.0.0.1:8084"
+  },
+  "summary": {
+    "total": 56,
+    "success": 41,
+    "success_rate": 73.21,
+    "metrics": {
+      "tool_correct": 82.14,
+      "args_exact": 73.21,
+      "order_correct": 82.14,
+      "no_extra_args": 80.36,
+      "no_hallucination": 98.21
+    },
+    "by_category": {
+      "ambiguite": {
+        "total": 8,
+        "success": 4,
+        "success_rate": 50.0,
+        "metrics": {
+          "tool_correct": 50.0,
+          "args_exact": 50.0,
+          "order_correct": 50.0,
+          "no_extra_args": 50.0,
+          "no_hallucination": 100.0
+        }
+      },
+      "global_scope": {
+        "total": 7,
+        "success": 7,
+        "success_rate": 100.0,
+        "metrics": {
+          "tool_correct": 100.0,
+          "args_exact": 100.0,
+          "order_correct": 100.0,
+          "no_extra_args": 100.0,
+          "no_hallucination": 100.0
+        }
+      },
+      "hors_domotique": {
+        "total": 5,
+        "success": 5,
+        "success_rate": 100.0,
+        "metrics": {
+          "tool_correct": 100.0,
+          "args_exact": 100.0,
+          "order_correct": 100.0,
+          "no_extra_args": 100.0,
+          "no_hallucination": 100.0
+        }
+      },
+      "multi_intent_ordered": {
+        "total": 10,
+        "success": 8,
+        "success_rate": 80.0,
+        "metrics": {
+          "tool_correct": 80.0,
+          "args_exact": 80.0,
+          "order_correct": 80.0,
+          "no_extra_args": 90.0,
+          "no_hallucination": 100.0
+        }
+      },
+      "piege": {
+        "total": 6,
+        "success": 5,
+        "success_rate": 83.33,
+        "metrics": {
+          "tool_correct": 100.0,
+          "args_exact": 83.33,
+          "order_correct": 100.0,
+          "no_extra_args": 100.0,
+          "no_hallucination": 100.0
+        }
+      },
+      "single_intent": {
+        "total": 14,
+        "success": 9,
+        "success_rate": 64.29,
+        "metrics": {
+          "tool_correct": 92.86,
+          "args_exact": 64.29,
+          "order_correct": 92.86,
+          "no_extra_args": 78.57,
+          "no_hallucination": 100.0
+        }
+      },
+      "unknown_entities": {
+        "total": 6,
+        "success": 3,
+        "success_rate": 50.0,
+        "metrics": {
+          "tool_correct": 50.0,
+          "args_exact": 50.0,
+          "order_correct": 50.0,
+          "no_extra_args": 50.0,
+          "no_hallucination": 83.33
+        }
+      }
+    }
+  },
+  "worst_failures": [
+    {
+      "id": "BJ01",
+      "category": "unknown_entities",
+      "user_input": "allume le grenier",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "",
+      "parsed_calls": [],
+      "latency_ms": 394.37,
+      "tokens": 56,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "BC04",
+      "category": "single_intent",
+      "user_input": "regle l humidite a 60",
+      "expected": [
+        {
+          "tool": "set_humidity",
+          "args": {
+            "humidity": 60
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_humidity\", \"args\": {\"humidity\": 60, \"room\": \"\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "unknown_entity"
+          }
+        }
+      ],
+      "latency_ms": 326.22,
+      "tokens": 18,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BD07",
+      "category": "multi_intent_ordered",
+      "user_input": "chambre enfant en nuit et humidite a 45",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre enfant",
+            "preset": "nuit"
+          }
+        },
+        {
+          "tool": "set_humidity",
+          "args": {
+            "humidity": 45
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"chambre\", \"preset\": \"nuit\"}}, {\"tool\": \"get_sensor_data\", \"args\": {\"type\": \"humidite\", \"room\": \"chambre\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "unknown_entity"
+          }
+        }
+      ],
+      "latency_ms": 432.49,
+      "tokens": 41,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BE02",
+      "category": "ambiguite",
+      "user_input": "la suspension",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"fixture\": \"suspension\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "fixture": "suspension"
+          }
+        }
+      ],
+      "latency_ms": 253.84,
+      "tokens": 16,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BE03",
+      "category": "ambiguite",
+      "user_input": "monte le chauffage",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_temperature\", \"args\": {\"temperature\": 20, \"room\": \"chambre parentale\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 20,
+            "room": "chambre parentale"
+          }
+        }
+      ],
+      "latency_ms": 262.96,
+      "tokens": 21,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BE06",
+      "category": "ambiguite",
+      "user_input": "c est un peu sombre ici",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"chambre parentale\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre parentale"
+          }
+        }
+      ],
+      "latency_ms": 302.25,
+      "tokens": 17,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BE07",
+      "category": "ambiguite",
+      "user_input": "l ecran",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_on_devices\", \"args\": {\"device\": \"ecran\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "device": "ecran"
+          }
+        }
+      ],
+      "latency_ms": 290.87,
+      "tokens": 15,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BJ03",
+      "category": "unknown_entities",
+      "user_input": "eteins le lave-vaisselle",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_devices\", \"args\": {\"device\": \"lave-vaisselle\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "device": "lave-vaisselle"
+          }
+        }
+      ],
+      "latency_ms": 284.88,
+      "tokens": 18,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BJ04",
+      "category": "unknown_entities",
+      "user_input": "mets 20 degres dans le couloir",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_temperature\", \"args\": {\"temperature\": 20}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 20
+          }
+        }
+      ],
+      "latency_ms": 258.31,
+      "tokens": 14,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BD10",
+      "category": "multi_intent_ordered",
+      "user_input": "baisse les lumieres du sejour a 30 et mets 20 degres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour",
+            "intensite": 30
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 20
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_light\", \"args\": {\"room\": \"sejour\"}}, {\"tool\": \"set_temperature\", \"args\": {\"temperature\": 20}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "sejour"
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 20
+          }
+        }
+      ],
+      "latency_ms": 470.3,
+      "tokens": 29,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BC01",
+      "category": "single_intent",
+      "user_input": "ouvre l ecran",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "ecran"
+            ]
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_on_devices\", \"args\": {\"device\": \"ecran\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "device": "ecran"
+          }
+        }
+      ],
+      "latency_ms": 330.97,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BC13",
+      "category": "single_intent",
+      "user_input": "lance le congelateur",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "congelateur"
+            ]
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_on_devices\", \"args\": {\"device\": \"congelateur\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "device": "congelateur"
+          }
+        }
+      ],
+      "latency_ms": 257.47,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BC05",
+      "category": "single_intent",
+      "user_input": "19 degres dans la cave",
+      "expected": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19,
+            "room": "cave"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_temperature\", \"args\": {\"temperature\": 19}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19
+          }
+        }
+      ],
+      "latency_ms": 278.61,
+      "tokens": 14,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BC07",
+      "category": "single_intent",
+      "user_input": "rappelle moi d arroser les plantes vendredi",
+      "expected": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true,
+            "date": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_reminder\", \"args\": {\"message\": \"arroser les plantes vendredi\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": "arroser les plantes vendredi"
+          }
+        }
+      ],
+      "latency_ms": 317.32,
+      "tokens": 18,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BH06",
+      "category": "piege",
+      "user_input": "allume la soundbar de la salle a manger et baisse les lumieres a 40",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "soundbar"
+            ],
+            "rooms": [
+              "salle a manger"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salle a manger",
+            "intensite": 40
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_on_devices\", \"args\": {\"devices\": [\"soundbar\"], \"rooms\": [\"salle a manger\"]}}, {\"tool\": \"set_lighting\", \"args\": {\"intensite\": 40}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "soundbar"
+            ],
+            "rooms": [
+              "salle a manger"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "intensite": 40
+          }
+        }
+      ],
+      "latency_ms": 523.93,
+      "tokens": 39,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    }
+  ],
+  "results": [
+    {
+      "id": "BC01",
+      "category": "single_intent",
+      "user_input": "ouvre l ecran",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "ecran"
+            ]
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_on_devices\", \"args\": {\"device\": \"ecran\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "device": "ecran"
+          }
+        }
+      ],
+      "latency_ms": 330.97,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BC02",
+      "category": "single_intent",
+      "user_input": "illumine la terrasse",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "terrasse"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"terrasse\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "terrasse"
+          }
+        }
+      ],
+      "latency_ms": 273.51,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BC03",
+      "category": "single_intent",
+      "user_input": "stoppe le robot aspirateur",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "robot aspirateur"
+            ]
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_devices\", \"args\": {\"devices\": [\"robot aspirateur\"]}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "robot aspirateur"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 289.32,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BC04",
+      "category": "single_intent",
+      "user_input": "regle l humidite a 60",
+      "expected": [
+        {
+          "tool": "set_humidity",
+          "args": {
+            "humidity": 60
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_humidity\", \"args\": {\"humidity\": 60, \"room\": \"\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "unknown_entity"
+          }
+        }
+      ],
+      "latency_ms": 326.22,
+      "tokens": 18,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BC05",
+      "category": "single_intent",
+      "user_input": "19 degres dans la cave",
+      "expected": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19,
+            "room": "cave"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_temperature\", \"args\": {\"temperature\": 19}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 19
+          }
+        }
+      ],
+      "latency_ms": 278.61,
+      "tokens": 14,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BC06",
+      "category": "single_intent",
+      "user_input": "taux de co2 bureau",
+      "expected": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "co2",
+            "room": "bureau"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"get_sensor_data\", \"args\": {\"type\": \"co2\", \"room\": \"bureau\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "co2",
+            "room": "bureau"
+          }
+        }
+      ],
+      "latency_ms": 280.51,
+      "tokens": 20,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BC07",
+      "category": "single_intent",
+      "user_input": "rappelle moi d arroser les plantes vendredi",
+      "expected": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true,
+            "date": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_reminder\", \"args\": {\"message\": \"arroser les plantes vendredi\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": "arroser les plantes vendredi"
+          }
+        }
+      ],
+      "latency_ms": 317.32,
+      "tokens": 18,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BC08",
+      "category": "single_intent",
+      "user_input": "allume l applique murale",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "fixture": "applique murale"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"fixture\": \"applique murale\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "fixture": "applique murale"
+          }
+        }
+      ],
+      "latency_ms": 309.78,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BC09",
+      "category": "single_intent",
+      "user_input": "sejour en mode romantique",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour",
+            "preset": "romantique"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"sejour\", \"preset\": \"romantique\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour",
+            "preset": "romantique"
+          }
+        }
+      ],
+      "latency_ms": 295.0,
+      "tokens": 21,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BC10",
+      "category": "single_intent",
+      "user_input": "24 degres",
+      "expected": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 24
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_temperature\", \"args\": {\"temperature\": 24}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 24
+          }
+        }
+      ],
+      "latency_ms": 285.86,
+      "tokens": 14,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BC11",
+      "category": "single_intent",
+      "user_input": "defais la derniere action",
+      "expected": [
+        {
+          "tool": "step_back",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\": \"step_back\", \"args\": {}}]",
+      "parsed_calls": [
+        {
+          "tool": "step_back",
+          "args": {}
+        }
+      ],
+      "latency_ms": 283.05,
+      "tokens": 11,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BC12",
+      "category": "single_intent",
+      "user_input": "humidite de la cuisine",
+      "expected": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "humidite",
+            "room": "cuisine"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"get_sensor_data\", \"args\": {\"type\": \"humidite\", \"room\": \"cuisine\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "humidite",
+            "room": "cuisine"
+          }
+        }
+      ],
+      "latency_ms": 270.47,
+      "tokens": 21,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BC13",
+      "category": "single_intent",
+      "user_input": "lance le congelateur",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "congelateur"
+            ]
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_on_devices\", \"args\": {\"device\": \"congelateur\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "device": "congelateur"
+          }
+        }
+      ],
+      "latency_ms": 257.47,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BC14",
+      "category": "single_intent",
+      "user_input": "rappelle moi de payer la facture",
+      "expected": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_reminder\", \"args\": {\"message\": \"Payer la facture\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": "Payer la facture"
+          }
+        }
+      ],
+      "latency_ms": 259.45,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BD01",
+      "category": "multi_intent_ordered",
+      "user_input": "eteins la cave et allume le sejour",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "cave"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_light\", \"args\": {\"room\": \"cave\"}}, {\"tool\": \"set_lighting\", \"args\": {\"room\": \"sejour\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "cave"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour"
+          }
+        }
+      ],
+      "latency_ms": 387.66,
+      "tokens": 30,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BD02",
+      "category": "multi_intent_ordered",
+      "user_input": "sejour en soiree et mets 21 degres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour",
+            "preset": "soiree"
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 21
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"sejour\", \"preset\": \"soiree\"}}, {\"tool\": \"set_temperature\", \"args\": {\"temperature\": 21}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour",
+            "preset": "soiree"
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 21
+          }
+        }
+      ],
+      "latency_ms": 429.17,
+      "tokens": 35,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BD03",
+      "category": "multi_intent_ordered",
+      "user_input": "stoppe l enceinte puis allume la salle a manger",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "enceinte"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salle a manger"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_devices\", \"args\": {\"devices\": [\"enceinte\"]}}, {\"tool\": \"set_lighting\", \"args\": {\"room\": \"salle a manger\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "enceinte"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salle a manger"
+          }
+        }
+      ],
+      "latency_ms": 430.08,
+      "tokens": 33,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BD04",
+      "category": "multi_intent_ordered",
+      "user_input": "annule et allume la chambre parentale",
+      "expected": [
+        {
+          "tool": "step_back",
+          "args": {}
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre parentale"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"step_back\", \"args\": {}}, {\"tool\": \"set_lighting\", \"args\": {\"room\": \"chambre parentale\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "step_back",
+          "args": {}
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre parentale"
+          }
+        }
+      ],
+      "latency_ms": 401.61,
+      "tokens": 28,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BD05",
+      "category": "multi_intent_ordered",
+      "user_input": "lance l enceinte et eclaire la cuisine en lecture",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "enceinte"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "cuisine",
+            "preset": "lecture"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_on_devices\", \"args\": {\"devices\": [\"enceinte\"]}}, {\"tool\": \"set_lighting\", \"args\": {\"room\": \"cuisine\", \"preset\": \"lecture\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "enceinte"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "cuisine",
+            "preset": "lecture"
+          }
+        }
+      ],
+      "latency_ms": 419.85,
+      "tokens": 35,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BD06",
+      "category": "multi_intent_ordered",
+      "user_input": "coupe la soundbar du sejour et eteins la terrasse",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "soundbar"
+            ],
+            "rooms": [
+              "sejour"
+            ]
+          }
+        },
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "terrasse"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_devices\", \"args\": {\"devices\": [\"soundbar\"], \"rooms\": [\"sejour\"]}}, {\"tool\": \"turn_off_light\", \"args\": {\"room\": \"terrasse\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "soundbar"
+            ],
+            "rooms": [
+              "sejour"
+            ]
+          }
+        },
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "terrasse"
+          }
+        }
+      ],
+      "latency_ms": 419.89,
+      "tokens": 37,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BD07",
+      "category": "multi_intent_ordered",
+      "user_input": "chambre enfant en nuit et humidite a 45",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre enfant",
+            "preset": "nuit"
+          }
+        },
+        {
+          "tool": "set_humidity",
+          "args": {
+            "humidity": 45
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"chambre\", \"preset\": \"nuit\"}}, {\"tool\": \"get_sensor_data\", \"args\": {\"type\": \"humidite\", \"room\": \"chambre\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "unknown_entity"
+          }
+        }
+      ],
+      "latency_ms": 432.49,
+      "tokens": 41,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BD08",
+      "category": "multi_intent_ordered",
+      "user_input": "allume la terrasse et rappelle moi d acheter du vin",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "terrasse"
+          }
+        },
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"terrasse\"}}, {\"tool\": \"set_reminder\", \"args\": {\"message\": \"Acheter du vin\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "terrasse"
+          }
+        },
+        {
+          "tool": "set_reminder",
+          "args": {
+            "message": "Acheter du vin"
+          }
+        }
+      ],
+      "latency_ms": 410.69,
+      "tokens": 33,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BD09",
+      "category": "multi_intent_ordered",
+      "user_input": "allume le sejour la salle a manger et la terrasse",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salle a manger"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "terrasse"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"sejour\"}}, {\"tool\": \"set_lighting\", \"args\": {\"room\": \"salle a manger\"}}, {\"tool\": \"set_lighting\", \"args\": {\"room\": \"terrasse\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salle a manger"
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "terrasse"
+          }
+        }
+      ],
+      "latency_ms": 520.31,
+      "tokens": 48,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BD10",
+      "category": "multi_intent_ordered",
+      "user_input": "baisse les lumieres du sejour a 30 et mets 20 degres",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour",
+            "intensite": 30
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 20
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_light\", \"args\": {\"room\": \"sejour\"}}, {\"tool\": \"set_temperature\", \"args\": {\"temperature\": 20}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "sejour"
+          }
+        },
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 20
+          }
+        }
+      ],
+      "latency_ms": 470.3,
+      "tokens": 29,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BE01",
+      "category": "ambiguite",
+      "user_input": "il fait trop chaud",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"do_nothing\", \"args\": {\"reason\": \"Pas de verbe de commande (mets/eteins/mets en mode) pour le thermostat. La phrase 'il fait trop chaud' est une observation, pas une action de réglage.\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "Pas de verbe de commande (mets/eteins/mets en mode) pour le thermostat. La phrase 'il fait trop chaud' est une observation, pas une action de réglage."
+          }
+        }
+      ],
+      "latency_ms": 369.73,
+      "tokens": 53,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BE02",
+      "category": "ambiguite",
+      "user_input": "la suspension",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"fixture\": \"suspension\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "fixture": "suspension"
+          }
+        }
+      ],
+      "latency_ms": 253.84,
+      "tokens": 16,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BE03",
+      "category": "ambiguite",
+      "user_input": "monte le chauffage",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_temperature\", \"args\": {\"temperature\": 20, \"room\": \"chambre parentale\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 20,
+            "room": "chambre parentale"
+          }
+        }
+      ],
+      "latency_ms": 262.96,
+      "tokens": 21,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BE04",
+      "category": "ambiguite",
+      "user_input": "humidite actuelle",
+      "expected": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "humidite"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"get_sensor_data\", \"args\": {\"type\": \"humidite\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "get_sensor_data",
+          "args": {
+            "type": "humidite"
+          }
+        }
+      ],
+      "latency_ms": 248.36,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BE05",
+      "category": "ambiguite",
+      "user_input": "eteins les lumieres du bureau",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "bureau"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_light\", \"args\": {\"room\": \"bureau\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {
+            "room": "bureau"
+          }
+        }
+      ],
+      "latency_ms": 330.94,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BE06",
+      "category": "ambiguite",
+      "user_input": "c est un peu sombre ici",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"chambre parentale\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "chambre parentale"
+          }
+        }
+      ],
+      "latency_ms": 302.25,
+      "tokens": 17,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BE07",
+      "category": "ambiguite",
+      "user_input": "l ecran",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_on_devices\", \"args\": {\"device\": \"ecran\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "device": "ecran"
+          }
+        }
+      ],
+      "latency_ms": 290.87,
+      "tokens": 15,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BE08",
+      "category": "ambiguite",
+      "user_input": "allume le sejour s il te plait",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"sejour\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour"
+          }
+        }
+      ],
+      "latency_ms": 289.43,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BF01",
+      "category": "global_scope",
+      "user_input": "eteins toutes les lampes",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_light\", \"args\": {}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "latency_ms": 281.18,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BF02",
+      "category": "global_scope",
+      "user_input": "allume partout",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "latency_ms": 260.26,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BF03",
+      "category": "global_scope",
+      "user_input": "mode sieste",
+      "expected": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "sieste"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_global_preset\", \"args\": {\"preset\": \"sieste\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "sieste"
+          }
+        }
+      ],
+      "latency_ms": 273.57,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BF04",
+      "category": "global_scope",
+      "user_input": "passe en mode soiree",
+      "expected": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "soiree"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_global_preset\", \"args\": {\"preset\": \"soiree\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_global_preset",
+          "args": {
+            "preset": "soiree"
+          }
+        }
+      ],
+      "latency_ms": 311.56,
+      "tokens": 17,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BF05",
+      "category": "global_scope",
+      "user_input": "eteins tous les appareils de la maison",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_devices\", \"args\": {}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {}
+        }
+      ],
+      "latency_ms": 297.91,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BF06",
+      "category": "global_scope",
+      "user_input": "allume les lumieres partout",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "latency_ms": 314.07,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BF07",
+      "category": "global_scope",
+      "user_input": "coupe toutes les lampes",
+      "expected": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_light\", \"args\": {}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_light",
+          "args": {}
+        }
+      ],
+      "latency_ms": 291.01,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BH01",
+      "category": "piege",
+      "user_input": "allume la liseuse gauche",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "fixture": "liseuse gauche"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"fixture\": \"liseuse gauche\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "fixture": "liseuse gauche"
+          }
+        }
+      ],
+      "latency_ms": 308.22,
+      "tokens": 16,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BH02",
+      "category": "piege",
+      "user_input": "allume la lumiere",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {}
+        }
+      ],
+      "latency_ms": 247.45,
+      "tokens": 12,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BH03",
+      "category": "piege",
+      "user_input": "mets le sejour en romantique",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour",
+            "preset": "romantique"
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"sejour\", \"preset\": \"romantique\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "sejour",
+            "preset": "romantique"
+          }
+        }
+      ],
+      "latency_ms": 311.16,
+      "tokens": 21,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BH04",
+      "category": "piege",
+      "user_input": "stoppe le store electrique de la chambre parentale",
+      "expected": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "store electrique"
+            ],
+            "rooms": [
+              "chambre parentale"
+            ]
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_devices\", \"args\": {\"devices\": [\"store electrique\"], \"rooms\": [\"chambre parentale\"]}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "devices": [
+              "store electrique"
+            ],
+            "rooms": [
+              "chambre parentale"
+            ]
+          }
+        }
+      ],
+      "latency_ms": 361.03,
+      "tokens": 24,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BH05",
+      "category": "piege",
+      "user_input": "allume la guirlande de la terrasse a 80",
+      "expected": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "terrasse",
+            "fixture": "guirlande",
+            "intensite": 80
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"terrasse\", \"fixture\": \"guirlande\", \"intensite\": 80}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "terrasse",
+            "fixture": "guirlande",
+            "intensite": 80
+          }
+        }
+      ],
+      "latency_ms": 380.74,
+      "tokens": 28,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BH06",
+      "category": "piege",
+      "user_input": "allume la soundbar de la salle a manger et baisse les lumieres a 40",
+      "expected": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "soundbar"
+            ],
+            "rooms": [
+              "salle a manger"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "room": "salle a manger",
+            "intensite": 40
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_on_devices\", \"args\": {\"devices\": [\"soundbar\"], \"rooms\": [\"salle a manger\"]}}, {\"tool\": \"set_lighting\", \"args\": {\"intensite\": 40}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_on_devices",
+          "args": {
+            "devices": [
+              "soundbar"
+            ],
+            "rooms": [
+              "salle a manger"
+            ]
+          }
+        },
+        {
+          "tool": "set_lighting",
+          "args": {
+            "intensite": 40
+          }
+        }
+      ],
+      "latency_ms": 523.93,
+      "tokens": 39,
+      "score": {
+        "tool_correct": true,
+        "args_exact": false,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BI01",
+      "category": "hors_domotique",
+      "user_input": "donne moi une recette de cuisine",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"do_nothing\", \"args\": {\"reason\": \"Hors scope: recette n'est pas une action domotique.\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "Hors scope: recette n'est pas une action domotique."
+          }
+        }
+      ],
+      "latency_ms": 289.94,
+      "tokens": 27,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BI02",
+      "category": "hors_domotique",
+      "user_input": "quelle est la date aujourd hui",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"do_nothing\", \"args\": {\"reason\": \"Hors scope: raconter/raconte, calculer/calcule, traduire, quelle heure/capitale, joue musique, recette, meteo, blague.\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "Hors scope: raconter/raconte, calculer/calcule, traduire, quelle heure/capitale, joue musique, recette, meteo, blague."
+          }
+        }
+      ],
+      "latency_ms": 398.61,
+      "tokens": 49,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BI03",
+      "category": "hors_domotique",
+      "user_input": "comment dit-on merci en japonais",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"do_nothing\", \"args\": {\"reason\": \"Pas de verbe de commande (allume/eteins/mets/regle/mode/rappelle) pour 'merci'.\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "Pas de verbe de commande (allume/eteins/mets/regle/mode/rappelle) pour 'merci'."
+          }
+        }
+      ],
+      "latency_ms": 328.05,
+      "tokens": 40,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BI04",
+      "category": "hors_domotique",
+      "user_input": "previsions meteo pour la semaine",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"do_nothing\", \"args\": {\"reason\": \"Hors scope: meteo\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "Hors scope: meteo"
+          }
+        }
+      ],
+      "latency_ms": 287.01,
+      "tokens": 20,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BI05",
+      "category": "hors_domotique",
+      "user_input": "mets de la musique classique",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"do_nothing\", \"args\": {\"reason\": \"Action requires music player device (e.g., 'radio', 'soundbar') which is not in scope for this command.\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "Action requires music player device (e.g., 'radio', 'soundbar') which is not in scope for this command."
+          }
+        }
+      ],
+      "latency_ms": 361.34,
+      "tokens": 38,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BJ01",
+      "category": "unknown_entities",
+      "user_input": "allume le grenier",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "",
+      "parsed_calls": [],
+      "latency_ms": 394.37,
+      "tokens": 56,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": false,
+        "success": false
+      }
+    },
+    {
+      "id": "BJ02",
+      "category": "unknown_entities",
+      "user_input": "mode zen",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_global_preset\", \"args\": {\"preset\": \"zen\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "unknown_entity"
+          }
+        }
+      ],
+      "latency_ms": 240.69,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BJ03",
+      "category": "unknown_entities",
+      "user_input": "eteins le lave-vaisselle",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"turn_off_devices\", \"args\": {\"device\": \"lave-vaisselle\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "turn_off_devices",
+          "args": {
+            "device": "lave-vaisselle"
+          }
+        }
+      ],
+      "latency_ms": 284.88,
+      "tokens": 18,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BJ04",
+      "category": "unknown_entities",
+      "user_input": "mets 20 degres dans le couloir",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_temperature\", \"args\": {\"temperature\": 20}}]",
+      "parsed_calls": [
+        {
+          "tool": "set_temperature",
+          "args": {
+            "temperature": 20
+          }
+        }
+      ],
+      "latency_ms": 258.31,
+      "tokens": 14,
+      "score": {
+        "tool_correct": false,
+        "args_exact": false,
+        "order_correct": false,
+        "no_extra_args": false,
+        "no_hallucination": true,
+        "success": false
+      }
+    },
+    {
+      "id": "BJ05",
+      "category": "unknown_entities",
+      "user_input": "allume le salon",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_lighting\", \"args\": {\"room\": \"salon\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "unknown_entity"
+          }
+        }
+      ],
+      "latency_ms": 271.16,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    },
+    {
+      "id": "BJ06",
+      "category": "unknown_entities",
+      "user_input": "mode sport",
+      "expected": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": true
+          }
+        }
+      ],
+      "model_response": "[{\"tool\": \"set_global_preset\", \"args\": {\"preset\": \"sport\"}}]",
+      "parsed_calls": [
+        {
+          "tool": "do_nothing",
+          "args": {
+            "reason": "unknown_entity"
+          }
+        }
+      ],
+      "latency_ms": 246.12,
+      "tokens": 15,
+      "score": {
+        "tool_correct": true,
+        "args_exact": true,
+        "order_correct": true,
+        "no_extra_args": true,
+        "no_hallucination": true,
+        "success": true
+      }
+    }
+  ]
+}

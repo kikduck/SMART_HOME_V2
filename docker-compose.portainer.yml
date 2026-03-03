@@ -1,0 +1,44 @@
+# Smart Home V2 - Stack Portainer (Admin + LLM)
+# Activer la stack = Admin + LLM démarrés. Désactiver = tout arrêté.
+# IMPORTANT : Remplacez /home/user/SMART_HOME_V2 par le chemin réel
+# Prérequis : ./download_model.sh (modèle dans models/Qwen3.5-2B-Q6_K.gguf)
+
+version: "3.8"
+
+services:
+  llama:
+    image: ghcr.io/ggml-org/llama.cpp:server
+    volumes:
+      - /home/user/SMART_HOME_V2/models:/models
+    command: >
+      -m /models/Qwen3.5-2B-Q6_K.gguf
+      --port 8085 --host 0.0.0.0
+      -c 2048 -ngl 0 -t 4 -ub 1024
+    ports:
+      - "0.0.0.0:8085:8085"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8085/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 120s
+
+  admin:
+    build:
+      context: /home/user/SMART_HOME_V2
+      dockerfile: admin/Dockerfile
+    ports:
+      - "0.0.0.0:8000:8000"
+    volumes:
+      - /home/user/SMART_HOME_V2/knowledge:/app/knowledge
+      - /home/user/SMART_HOME_V2/schemas:/app/schemas
+      - /home/user/SMART_HOME_V2/prompts:/app/prompts
+      - /home/user/SMART_HOME_V2/models:/app/models
+    environment:
+      - SMART_HOME_BASE=/app
+      - LLAMA_BASE_URL=http://llama:8085
+    depends_on:
+      llama:
+        condition: service_healthy
+    restart: unless-stopped

@@ -1,0 +1,30 @@
+{
+  "version": "2026-03-02-v1",
+  "rules": {
+    "no_invention": {
+      "description": "Never invent entities or values. Use ONLY entities listed in the knowledge (rooms, devices, fixtures, presets, sensor types).",
+      "severity": "critical"
+    },
+    "knowledge_boundary": {
+      "description": "If an entity is not found in knowledge, do not guess or substitute. Either call get_current_knowledge to verify, or use do_nothing if unclear.",
+      "severity": "critical"
+    },
+    "strict_json_output": {
+      "description": "Return strict JSON only: object or list of objects.",
+      "severity": "critical"
+    },
+    "preserve_multi_intent_order": {
+      "description": "Keep emitted tool calls in the same order as user intent.",
+      "severity": "high"
+    },
+    "arg_absence_means_absent": {
+      "description": "If argument is not explicitly requested, do not add it.",
+      "severity": "high"
+    },
+    "lighting_vs_devices_boundary": {
+      "description": "Lights use lighting tools; non-light appliances use device tools.",
+      "severity": "critical"
+    }
+  }
+}
+

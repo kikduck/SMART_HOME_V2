@@ -1,0 +1,64 @@
+{
+  "version": "2026-03-02-v1",
+  "house_name": "Appartement T3",
+  "rooms": {
+    "salon": {
+      "lights": ["plafond", "ruban led", "lampadaire"],
+      "devices": ["tele", "enceinte", "ventilateur"],
+      "sensors": ["temperature", "humidite"]
+    },
+    "chambre": {
+      "lights": ["plafond", "lampe de chevet"],
+      "devices": ["ventilateur", "chauffage"],
+      "sensors": ["temperature", "humidite"]
+    },
+    "bureau": {
+      "lights": ["plafond", "lampe de bureau"],
+      "devices": ["enceinte", "ecran"],
+      "sensors": ["temperature", "humidite"]
+    },
+    "cuisine": {
+      "lights": ["plafond", "plan de travail"],
+      "devices": ["radio", "cafetiere"],
+      "sensors": ["temperature", "humidite"]
+    },
+    "salle de bain": {
+      "lights": ["plafond", "miroir"],
+      "devices": ["chauffage"],
+      "sensors": ["temperature", "humidite"]
+    },
+    "couloir": {
+      "lights": ["spots"],
+      "devices": [],
+      "sensors": []
+    },
+    "balcon": {
+      "lights": ["guirlande"],
+      "devices": ["chauffage exterieur"],
+      "sensors": ["temperature"]
+    }
+  },
+  "presets": {
+    "lighting": {
+      "lecture": {},
+      "cinema": {},
+      "nuit": {},
+      "travail": {},
+      "detente": {}
+    },
+    "global": {
+      "cinema": {},
+      "nuit": {},
+      "depart": {},
+      "reveil": {},
+      "fete": {}
+    }
+  },
+  "sensor_types": {
+    "temperature": {},
+    "humidite": {},
+    "qualite_air": {},
+    "co2": {}
+  }
+}
+
