@@ -7,24 +7,33 @@
 #   Compose path: SMART_HOME_V2/docker-compose.portainer.yml
 #   Puis configurer les volumes (voir ci-dessous)
 #
-# OPTION B - Chemin local : remplacez BASE_PATH par le chemin réel
-#   Ex: /home/elliot/SMART_HOME_V2
+# Chemin local : remplacez /home/elliot/SMART_HOME_V2 si votre projet est ailleurs
 #
 # Prérequis : ./download_model.sh (modèle dans models/Qwen3.5-2B-Q6_K.gguf)
 
 version: "3.8"
 
-x-base-path: &base_path /home/elliot/SMART_HOME_V2
-
+# Remplacez /home/elliot/SMART_HOME_V2 par votre chemin si différent
 services:
   llama:
     image: ghcr.io/ggml-org/llama.cpp:server
     volumes:
-      - *base_path/models:/models
-    command: >
-      -m /models/Qwen3.5-2B-Q6_K.gguf
-      --port 8085 --host 0.0.0.0
-      -c 2048 -ngl 0 -t 4 -ub 1024
+      - /home/elliot/SMART_HOME_V2/models:/models
+    command:
+      - "-m"
+      - "/models/Qwen3.5-2B-Q6_K.gguf"
+      - "--port"
+      - "8085"
+      - "--host"
+      - "0.0.0.0"
+      - "-c"
+      - "2048"
+      - "-ngl"
+      - "0"
+      - "-t"
+      - "4"
+      - "-ub"
+      - "1024"
     ports:
       - "0.0.0.0:8085:8085"
     restart: unless-stopped
@@ -37,15 +46,15 @@ services:
 
   admin:
     build:
-      context: .
+      context: ./SMART_HOME_V2
       dockerfile: admin/Dockerfile
     ports:
       - "0.0.0.0:8000:8000"
     volumes:
-      - *base_path/knowledge:/app/knowledge
-      - *base_path/schemas:/app/schemas
-      - *base_path/prompts:/app/prompts
-      - *base_path/models:/app/models
+      - /home/elliot/SMART_HOME_V2/knowledge:/app/knowledge
+      - /home/elliot/SMART_HOME_V2/schemas:/app/schemas
+      - /home/elliot/SMART_HOME_V2/prompts:/app/prompts
+      - /home/elliot/SMART_HOME_V2/models:/app/models
     environment:
       - SMART_HOME_BASE=/app
       - LLAMA_BASE_URL=http://llama:8085

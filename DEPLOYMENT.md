@@ -118,7 +118,7 @@ Si vous voyez les dossiers `admin`, `knowledge`, `models`, etc., le chemin est a
 3. **Build method** : **Git Repository**
 4. **Repository URL** : `https://github.com/kikduck/TEST` (ou votre repo)
 5. **Compose path** : `SMART_HOME_V2/docker-compose.portainer.yml`
-6. **Base path** : éditez la ligne `x-base-path` dans le compose si votre projet est ailleurs (ex. `/home/pi/SMART_HOME_V2`)
+6. **Base path** : remplacez `/home/elliot/SMART_HOME_V2` dans les volumes si votre projet est ailleurs (ex. `/home/pi/SMART_HOME_V2`)
 
 Le compose utilise `context: .` pour le build (contexte = dossier du compose) et des volumes pointant vers `/home/elliot/SMART_HOME_V2`.
 
@@ -126,7 +126,7 @@ Le compose utilise `context: .` pour le build (contexte = dossier du compose) et
 
 1. **Build method** : **Web editor**
 2. Collez le contenu de `docker-compose.portainer.yml`
-3. **Important** : remplacez `/home/elliot/SMART_HOME_V2` par votre chemin réel dans la ligne `x-base-path: &base_path ...`
+3. **Important** : remplacez `/home/elliot/SMART_HOME_V2` par votre chemin réel dans chaque volume du compose
 
 ⚠️ **Erreur "path not found"** : Portainer/Docker ne voit parfois pas le chemin du host. Dans ce cas, utilisez la méthode **Git** (étape 3).
 
@@ -192,7 +192,7 @@ Portainer envoie le chemin de build au daemon Docker. Si le chemin n'est pas tro
    ```
    Si ça échoue, le daemon Docker n'a pas accès à ce chemin.
 
-3. **Adaptez `x-base-path`** dans le compose si votre projet est ailleurs (ex. `/home/pi/SMART_HOME_V2`).
+3. **Adaptez les chemins** dans les volumes du compose si votre projet est ailleurs (ex. `/home/pi/SMART_HOME_V2`).
 
 ### Erreur "context not found" ou "path does not exist"
 
