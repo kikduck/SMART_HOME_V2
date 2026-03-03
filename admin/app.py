@@ -29,6 +29,7 @@ PROMPTS_DIR = BASE / "prompts"
 PRESETS_DIR = KNOWLEDGE_DIR / "presets"
 CONFIG_PATH = KNOWLEDGE_DIR / "config.json"
 MODELS_DIR = BASE / "models"
+DECOMPOSER_PATH = PROMPTS_DIR / "decomposer_prompt.txt"
 
 app = FastAPI(title="Smart Home V2 Admin", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -337,6 +338,99 @@ def _parse_llm_response(text: str) -> Optional[Any]:
     return None
 
 
+def _parse_llm_response_lenient(text: str) -> Optional[Any]:
+    """
+    Parse JSON avec fallback pour sorties du style:
+      {"tool":"a"},{"tool":"b"}
+    que certains modèles renvoient sans tableau englobant.
+    """
+    parsed = _parse_llm_response(text)
+    if parsed is not None:
+        return parsed
+    s = text.strip()
+    if not s:
+        return None
+    # Fallback "obj,obj" -> "[obj,obj]"
+    if s.startswith("{") and s.endswith("}") and "},{" in s:
+        try:
+            return json.loads(f"[{s}]")
+        except json.JSONDecodeError:
+            return None
+    return None
+
+
+_MULTI_INTENT_PATTERNS = (
+    " et ", " puis ", " ensuite ", " et aussi ", " et en plus ",
+    " ou bien ", " d'abord ", " puis après ", " et après ",
+    ",", ";", " ou ", " sinon ",
+)
+
+
+def _likely_single_intent(text: str) -> bool:
+    t = text.strip().lower()
+    return not any(p in t for p in _MULTI_INTENT_PATTERNS)
+
+
+def _call_llm_once(base_url: str, system_prompt: str, user_text: str, timeout_s: int = 60) -> Dict[str, Any]:
+    req_payload = {
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_text},
+        ],
+        "temperature": 0.0,
+        "top_p": 0.9,
+        "max_tokens": 128,
+        "timings_per_token": True,
+    }
+    t0 = time.perf_counter()
+    resp = requests.post(f"{base_url}/v1/chat/completions", json=req_payload, timeout=timeout_s)
+    wall_ms = (time.perf_counter() - t0) * 1000
+    resp.raise_for_status()
+    data = resp.json()
+    content_raw = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+    content = " ".join(
+        item.get("text", "") for item in content_raw
+        if isinstance(content_raw, list) and isinstance(item, dict)
+    ) if isinstance(content_raw, list) else str(content_raw)
+    parsed = _parse_llm_response_lenient(content)
+    items = parsed if isinstance(parsed, list) else ([parsed] if isinstance(parsed, dict) else [])
+    calls = [x for x in items if isinstance(x, dict) and (x.get("tool") or x.get("action"))]
+    return {"raw": content, "calls": calls, "wall_ms": wall_ms}
+
+
+def _call_decomposer(base_url: str, user_text: str, timeout_s: int = 60) -> Dict[str, Any]:
+    prompt = _read_text(DECOMPOSER_PATH) if DECOMPOSER_PATH.exists() else (
+        "Tu dois classifier l'instruction utilisateur.\n"
+        "Retourne STRICTEMENT un JSON valide.\n"
+        'Single: {"type":"single","intent":"..."}\n'
+        'Multi: {"type":"multi","intents":["...","..."]}\n'
+        "Aucun texte hors JSON."
+    )
+    payload = {
+        "messages": [
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": user_text},
+        ],
+        "temperature": 0.0,
+        "top_p": 0.9,
+        "max_tokens": 64,
+    }
+    t0 = time.perf_counter()
+    resp = requests.post(f"{base_url}/v1/chat/completions", json=payload, timeout=timeout_s)
+    wall_ms = (time.perf_counter() - t0) * 1000
+    resp.raise_for_status()
+    data = resp.json()
+    content_raw = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+    content = " ".join(
+        item.get("text", "") for item in content_raw
+        if isinstance(content_raw, list) and isinstance(item, dict)
+    ) if isinstance(content_raw, list) else str(content_raw)
+    parsed = _parse_llm_response(content)
+    out = parsed if isinstance(parsed, dict) else {"type": "single", "intent": user_text}
+    out["_wall_ms"] = wall_ms
+    return out
+
+
 @app.post("/api/parse")
 def parse_instruction(payload: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -367,41 +461,51 @@ def parse_instruction(payload: Dict[str, Any]) -> Dict[str, Any]:
     except requests.RequestException as e:
         raise HTTPException(503, f"llama-server injoignable: {e}")
 
-    req_payload = {
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": text},
-        ],
-        "temperature": 0.0,
-        "top_p": 0.9,
-        "max_tokens": 128,
-        "timings_per_token": True,
-    }
-
-    t0 = time.perf_counter()
     try:
-        resp = requests.post(f"{base_url}/v1/chat/completions", json=req_payload, timeout=60)
-        resp.raise_for_status()
+        # Mode standard API: 1 appel parseur
+        if not use_decompose:
+            one = _call_llm_once(base_url, system_prompt, text, timeout_s=60)
+            return {
+                "parsed": one["calls"] if one["calls"] else None,
+                "raw": one["raw"],
+                "wall_ms": round(one["wall_ms"], 0),
+            }
+
+        # Mode décomposeur:
+        # - coupe-circuit pour phrase probablement mono-intent
+        # - sinon décomposeur puis N appels parseur
+        if _likely_single_intent(text):
+            one = _call_llm_once(base_url, system_prompt, text, timeout_s=60)
+            return {
+                "parsed": one["calls"] if one["calls"] else None,
+                "raw": one["raw"],
+                "wall_ms": round(one["wall_ms"], 0),
+            }
+
+        decomp = _call_decomposer(base_url, text, timeout_s=60)
+        intents: List[str] = []
+        if decomp.get("type") == "multi" and isinstance(decomp.get("intents"), list):
+            intents = [str(s).strip() for s in decomp["intents"] if str(s).strip()]
+        if not intents:
+            intents = [str(decomp.get("intent") or text)]
+
+        all_calls: List[Dict[str, Any]] = []
+        raws: List[str] = []
+        total_wall = float(decomp.get("_wall_ms", 0.0))
+        for intent in intents:
+            one = _call_llm_once(base_url, system_prompt, intent, timeout_s=60)
+            total_wall += one["wall_ms"]
+            if one["raw"]:
+                raws.append(one["raw"])
+            all_calls.extend(one["calls"])
+
+        return {
+            "parsed": all_calls if all_calls else None,
+            "raw": "\n".join(raws),
+            "wall_ms": round(total_wall, 0),
+        }
     except requests.RequestException as e:
         raise HTTPException(502, f"Erreur llama-server: {e}")
-    wall_ms = (time.perf_counter() - t0) * 1000
-
-    data = resp.json()
-    content_raw = data.get("choices", [{}])[0].get("message", {}).get("content", "")
-    content = " ".join(
-        item.get("text", "") for item in content_raw
-        if isinstance(content_raw, list) and isinstance(item, dict)
-    ) if isinstance(content_raw, list) else str(content_raw)
-
-    parsed = _parse_llm_response(content)
-    items = parsed if isinstance(parsed, list) else ([parsed] if isinstance(parsed, dict) else [])
-    calls = [x for x in items if isinstance(x, dict) and (x.get("tool") or x.get("action"))]
-
-    return {
-        "parsed": calls if calls else None,
-        "raw": content,
-        "wall_ms": round(wall_ms, 0),
-    }
 
 
 # ---------------------------------------------------------------------------
