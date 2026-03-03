@@ -5,7 +5,7 @@
 set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MODEL_DIR="${1:-$SCRIPT_DIR/models}"
-MODEL_FILE="Qwen3.5-2B-Q6_K.gguf"
+MODEL_FILE="Qwen3.5-2B-Q4_K_M.gguf"
 HF_URL="https://huggingface.co/unsloth/Qwen3.5-2B-GGUF/resolve/main/${MODEL_FILE}"
 
 mkdir -p "$MODEL_DIR"
