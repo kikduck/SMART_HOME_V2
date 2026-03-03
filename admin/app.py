@@ -396,7 +396,7 @@ def _split_intents_fast(text: str) -> List[str]:
     return parts if len(parts) > 1 else []
 
 
-def _call_llm_once(base_url: str, system_prompt: str, user_text: str, timeout_s: int = 60) -> Dict[str, Any]:
+def _call_llm_once(base_url: str, system_prompt: str, user_text: str, timeout_s: int = 120) -> Dict[str, Any]:
     req_payload = {
         "messages": [
             {"role": "system", "content": system_prompt},
@@ -423,7 +423,7 @@ def _call_llm_once(base_url: str, system_prompt: str, user_text: str, timeout_s:
     return {"raw": content, "calls": calls, "wall_ms": wall_ms}
 
 
-def _call_decomposer(base_url: str, user_text: str, timeout_s: int = 60) -> Dict[str, Any]:
+def _call_decomposer(base_url: str, user_text: str, timeout_s: int = 120) -> Dict[str, Any]:
     prompt = _read_text(DECOMPOSER_PATH) if DECOMPOSER_PATH.exists() else (
         "Tu dois classifier l'instruction utilisateur.\n"
         "Retourne STRICTEMENT un JSON valide.\n"
