@@ -371,6 +371,31 @@ def _likely_single_intent(text: str) -> bool:
     return not any(p in t for p in _MULTI_INTENT_PATTERNS)
 
 
+def _split_intents_fast(text: str) -> List[str]:
+    """
+    Décomposition heuristique rapide (sans appel LLM) basée sur les liaisons.
+    Objectif: éviter l'appel au décomposeur quand la phrase est clairement multi-intent.
+    """
+    s = re.sub(r"\s+", " ", text.strip())
+    if not s:
+        return []
+
+    # Plus les séparateurs sont explicites, plus on peut splitter directement.
+    separators = [
+        " puis après ", " et après ", " et aussi ", " et en plus ",
+        " d'abord ", " ensuite ", " puis ", " ou bien ", " sinon ",
+        ";", ",", " et ", " ou ",
+    ]
+    for sep in separators:
+        s = s.replace(sep, "|")
+
+    parts = [p.strip(" .,!?:;").strip() for p in s.split("|")]
+    parts = [p for p in parts if p]
+
+    # Évite les faux positifs (une seule partie => pas vraiment décomposé)
+    return parts if len(parts) > 1 else []
+
+
 def _call_llm_once(base_url: str, system_prompt: str, user_text: str, timeout_s: int = 60) -> Dict[str, Any]:
     req_payload = {
         "messages": [
@@ -482,16 +507,19 @@ def parse_instruction(payload: Dict[str, Any]) -> Dict[str, Any]:
                 "wall_ms": round(one["wall_ms"], 0),
             }
 
-        decomp = _call_decomposer(base_url, text, timeout_s=60)
-        intents: List[str] = []
-        if decomp.get("type") == "multi" and isinstance(decomp.get("intents"), list):
-            intents = [str(s).strip() for s in decomp["intents"] if str(s).strip()]
+        intents = _split_intents_fast(text)
+        decomp_wall = 0.0
         if not intents:
-            intents = [str(decomp.get("intent") or text)]
+            decomp = _call_decomposer(base_url, text, timeout_s=60)
+            if decomp.get("type") == "multi" and isinstance(decomp.get("intents"), list):
+                intents = [str(s).strip() for s in decomp["intents"] if str(s).strip()]
+            if not intents:
+                intents = [str(decomp.get("intent") or text)]
+            decomp_wall = float(decomp.get("_wall_ms", 0.0))
 
         all_calls: List[Dict[str, Any]] = []
         raws: List[str] = []
-        total_wall = float(decomp.get("_wall_ms", 0.0))
+        total_wall = decomp_wall
         for intent in intents:
             one = _call_llm_once(base_url, system_prompt, intent, timeout_s=60)
             total_wall += one["wall_ms"]
