@@ -93,44 +93,50 @@ Accès : `https://IP_DU_SERVEUR:9443` (ou `:9000` en HTTP).
 2. Créez un compte admin (première visite)
 3. Sélectionnez **Local** (ou votre environnement Docker)
 
-### Étape 2 : Créer une Stack
+### Étape 2 : Préparer les données sur le serveur
+
+Sur le serveur (ex. `elliot@yolo`), le projet doit être dans un dossier persistant avec le modèle :
+
+```bash
+cd /home/elliot/SMART_HOME_V2
+chmod +x download_model.sh
+./download_model.sh
+```
+
+Vérifiez que le chemin existe pour Docker :
+
+```bash
+docker run --rm -v /home/elliot/SMART_HOME_V2:/check alpine ls -la /check
+```
+
+Si vous voyez les dossiers `admin`, `knowledge`, `models`, etc., le chemin est accessible.
+
+### Étape 3 : Créer la Stack (méthode recommandée : Git)
 
 1. Menu **Stacks** → **Add stack**
 2. Nom : `smarthome-admin`
-3. Choisissez **Web editor** (éditeur intégré) ou **Upload** si vous avez le fichier `docker-compose.portainer.yml`
+3. **Build method** : **Git Repository**
+4. **Repository URL** : `https://github.com/kikduck/TEST` (ou votre repo)
+5. **Compose path** : `SMART_HOME_V2/docker-compose.portainer.yml`
+6. **Base path** : éditez la ligne `x-base-path` dans le compose si votre projet est ailleurs (ex. `/home/pi/SMART_HOME_V2`)
 
-### Étape 3 : Coller ou charger le docker-compose
+Le compose utilise `context: .` pour le build (contexte = dossier du compose) et des volumes pointant vers `/home/elliot/SMART_HOME_V2`.
 
-Collez le contenu de `docker-compose.portainer.yml`. **Avant** : exécutez `./download_model.sh` sur le serveur pour avoir le modèle dans `models/`.
+### Étape 4 : Alternative – Web editor (si Git ne convient pas)
 
-```yaml
-version: "3.8"
+1. **Build method** : **Web editor**
+2. Collez le contenu de `docker-compose.portainer.yml`
+3. **Important** : remplacez `/home/elliot/SMART_HOME_V2` par votre chemin réel dans la ligne `x-base-path: &base_path ...`
 
-services:
-  admin:
-    build:
-      context: /home/user/SMART_HOME_V2
-      dockerfile: admin/Dockerfile
-    ports:
-      - "8000:8000"
-    volumes:
-      - /home/user/SMART_HOME_V2/knowledge:/app/knowledge
-      - /home/user/SMART_HOME_V2/schemas:/app/schemas
-      - /home/user/SMART_HOME_V2/prompts:/app/prompts
-    environment:
-      - SMART_HOME_BASE=/app
-    restart: unless-stopped
-```
+⚠️ **Erreur "path not found"** : Portainer/Docker ne voit parfois pas le chemin du host. Dans ce cas, utilisez la méthode **Git** (étape 3).
 
-**Important** : remplacez `/home/user/SMART_HOME_V2` par le chemin réel où vous avez mis le projet (ex. `/home/pi/SMART_HOME_V2`).
-
-### Étape 4 : Build et déploiement
+### Étape 6 : Build et déploiement
 
 1. Cliquez sur **Deploy the stack**
 2. Portainer va construire l’image puis lancer le conteneur (quelques minutes la première fois)
 3. En cas d’erreur, vérifiez les **Logs** du conteneur
 
-### Étape 5 : Vérifier
+### Étape 7 : Vérifier
 
 - Ouvrez `http://IP_DU_SERVEUR:8000` dans un navigateur (depuis votre PC, téléphone ou Raspberry Pi sur le même réseau)
 - L’interface Admin doit s’afficher
@@ -144,7 +150,7 @@ Si votre projet est dans un autre dossier, modifiez les chemins dans le compose 
 
 | Chemin dans l’exemple | À remplacer par |
 |-----------------------|-----------------|
-| `/home/user/SMART_HOME_V2` | Chemin réel sur votre serveur |
+| `/home/elliot/SMART_HOME_V2` | Chemin réel sur votre serveur |
 
 Pour connaître le chemin exact :
 
@@ -171,10 +177,27 @@ Le `docker-compose.portainer.yml` inclut **deux services** :
 
 ## 7. Dépannage
 
+### Erreur "path ... not found" ou "unable to prepare context"
+
+Portainer envoie le chemin de build au daemon Docker. Si le chemin n'est pas trouvé :
+
+1. **Utilisez la méthode Git** : Stacks → Add stack → Build method: **Git Repository**
+   - URL : `https://github.com/kikduck/TEST`
+   - Compose path : `SMART_HOME_V2/docker-compose.portainer.yml`
+   - Le build se fait depuis le clone (contexte `.`), les volumes pointent vers votre chemin local (ex. `/home/elliot/SMART_HOME_V2`).
+
+2. **Vérifiez l'accès au chemin** sur le host :
+   ```bash
+   docker run --rm -v /home/elliot/SMART_HOME_V2:/check alpine ls /check
+   ```
+   Si ça échoue, le daemon Docker n'a pas accès à ce chemin.
+
+3. **Adaptez `x-base-path`** dans le compose si votre projet est ailleurs (ex. `/home/pi/SMART_HOME_V2`).
+
 ### Erreur "context not found" ou "path does not exist"
 
 - Le `context` du build doit pointer vers le dossier `SMART_HOME_V2`
-- Vérifiez que le chemin est correct et que les dossiers `admin/`, `knowledge/`, etc. existent
+- Avec la méthode Git, `context: .` suffit (le compose est dans `SMART_HOME_V2/`)
 
 ### Erreur "port 8000 already in use"
 

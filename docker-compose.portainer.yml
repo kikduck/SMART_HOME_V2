@@ -1,15 +1,26 @@
 # Smart Home V2 - Stack Portainer (Admin + LLM)
 # Activer la stack = Admin + LLM démarrés. Désactiver = tout arrêté.
-# IMPORTANT : Remplacez /home/user/SMART_HOME_V2 par le chemin réel
+#
+# OPTION A - Déploiement depuis Git (recommandé) :
+#   Portainer > Stacks > Add stack > Build method: Git Repository
+#   URL: https://github.com/kikduck/TEST
+#   Compose path: SMART_HOME_V2/docker-compose.portainer.yml
+#   Puis configurer les volumes (voir ci-dessous)
+#
+# OPTION B - Chemin local : remplacez BASE_PATH par le chemin réel
+#   Ex: /home/elliot/SMART_HOME_V2
+#
 # Prérequis : ./download_model.sh (modèle dans models/Qwen3.5-2B-Q6_K.gguf)
 
 version: "3.8"
+
+x-base-path: &base_path /home/elliot/SMART_HOME_V2
 
 services:
   llama:
     image: ghcr.io/ggml-org/llama.cpp:server
     volumes:
-      - /home/user/SMART_HOME_V2/models:/models
+      - *base_path/models:/models
     command: >
       -m /models/Qwen3.5-2B-Q6_K.gguf
       --port 8085 --host 0.0.0.0
@@ -26,15 +37,15 @@ services:
 
   admin:
     build:
-      context: /home/user/SMART_HOME_V2
+      context: .
       dockerfile: admin/Dockerfile
     ports:
       - "0.0.0.0:8000:8000"
     volumes:
-      - /home/user/SMART_HOME_V2/knowledge:/app/knowledge
-      - /home/user/SMART_HOME_V2/schemas:/app/schemas
-      - /home/user/SMART_HOME_V2/prompts:/app/prompts
-      - /home/user/SMART_HOME_V2/models:/app/models
+      - *base_path/knowledge:/app/knowledge
+      - *base_path/schemas:/app/schemas
+      - *base_path/prompts:/app/prompts
+      - *base_path/models:/app/models
     environment:
       - SMART_HOME_BASE=/app
       - LLAMA_BASE_URL=http://llama:8085
